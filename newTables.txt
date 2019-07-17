@@ -1,0 +1,61 @@
+1 datesheet 
+	subid
+	examcode
+	date
+	day
+	Time
+	ordr
+
+2 Rechecking
+	subid
+	examcode
+	result
+
+3 UFM
+	Subid
+	examcode
+	Interview date
+	Interview Time
+	Decision
+
+4 Practical Centers
+	examcode
+	PracCentercode
+	centername
+
+5 Practical datesheet
+	examcode
+	PracCentercode
+	subid
+	groupno
+	date
+
+6 Practical grouping
+	rollno
+	examcode
+	subid
+	PracCentercode
+	groupno 
+	
+7 CenterCode
+	examcode
+	ccode
+	cname
+
+In student login
+	datesheet
+	dmc
+	Apply for rechecking
+
+
+Student Login Dashboard
+	name
+	fname
+	college name
+	degree name in which enrolled
+	Regno
+	
+	
+		
+
+	
