@@ -636,6 +636,17 @@
 						$(element)
 						.closest('.form-control').addClass('err');
 					},
+					errorPlacement: function (error, element) {
+			    		if(element.hasClass('select2') && element.next('.select2-container').length) {
+			        		error.insertAfter(element.next('.select2-container'));
+			        	} 
+			        	else if (element.parent('.form-group').length) {
+			            error.insertAfter(element.parent());
+			        	}
+			        	else {
+			            	error.insertAfter(element);
+			        	}
+			    	},
 					success: function (label) {
 						label.closest('.form-control').removeClass('err');
 						label.remove();
@@ -688,6 +699,17 @@
 					$(element)
 					.closest('.form-control').addClass('err');
 				},
+				errorPlacement: function (error, element) {
+			    		if(element.hasClass('select2') && element.next('.select2-container').length) {
+			        		error.insertAfter(element.next('.select2-container'));
+			        	} 
+			        	else if (element.parent('.form-group').length) {
+			            error.insertAfter(element.parent());
+			        	}
+			        	else {
+			            	error.insertAfter(element);
+			        	}
+			    	},
 				success: function (label) {
 					label.closest('.form-control').removeClass('err');
 					label.remove();
