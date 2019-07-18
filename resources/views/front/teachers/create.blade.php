@@ -54,7 +54,7 @@ span.select2-selection.select2-selection--single {
                                 <option value=""></option>
                                 @if(count($colleges) > 0 )
                                     @foreach($colleges as $college)
-                                      <option class="cus-opt" value="{{ $college->id }}"> {{ $college->name }} </option>
+                                      <option class="cus-opt" value="{{ $college->college_id }}"> {{ $college->name }} </option>
                                     @endforeach
                                 @endif
                               </select>

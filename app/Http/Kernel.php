@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'disablepreventback' => \App\Http\Middleware\DisablePreventBack::class,
         'protectStudentLogin' => \App\Http\Middleware\protectStudentLogin::class,
+        'XSS' => \App\Http\Middleware\XSS::class,
     ];
 
     /**

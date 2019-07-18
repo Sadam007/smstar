@@ -161,9 +161,9 @@ class SpecialUsersController extends Controller
      public function teachersList(){
 
         $user_id = Auth('specialuser')->user()->id; 
-        $deparment_id = Auth('specialuser')->user()->department_id;
+        $department_id = Auth('specialuser')->user()->department_id;
 
-        $teachers = TeacherTb::where('department_id', $deparment_id)->paginate(10)->onEachSide(5);
+        $teachers = TeacherTb::where('department_id', $department_id)->paginate(10)->onEachSide(5);
         return view('front.colleges.teachers')->with('teachers',$teachers);
     }
 

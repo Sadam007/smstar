@@ -1,13 +1,12 @@
 <?php
 
 
-
-Route::get('/', [
+Route::group(['middleware' => ['XSS']], function () {
+		Route::get('/', [
 		'uses' =>'Front\HomeController@index',
 		'as'   => 'homepage'
-		]);
-
-
+		])->middleware(['XSS']);
+});
 
 /*
 	/ --------------------------------------
@@ -18,7 +17,9 @@ Route::get('/', [
 //Route::get('/restrict');
 
 // Auth::routes();
-Auth::routes(['register' => false]);
+Route::group(['middleware' => ['XSS']], function () {
+	Auth::routes(['register' => false]);
+});
 
 //Route::get('/admin/dashboard', 'DashboardController@index')->name('dashboard');
 
@@ -28,7 +29,7 @@ Auth::routes(['register' => false]);
 	/ --------------------------------------
 */
 
-Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 
 		Route::get('dashboard', [
 		'uses' =>'DashboardController@index',
@@ -251,17 +252,23 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
 	/ --------------------------------------
 */
 
-Route::get('/login/secrecyuser',[
+Route::group(['middleware' => ['XSS']], function () {
+  	Route::get('/login/secrecyuser',[
 		'uses' => 'Admin\SecrecyUsersController@loginSecrecyUser',
 		'as'   => 'secrecyuser.login'
-]);
-
-Route::post('/login/secrecyuser', [
+	]);
+	Route::post('/login/secrecyuser', [
 		'uses'=>  'Admin\SecrecyUsersController@secrecyUserAuth',
 		'as'  =>  'secrecyuser.login'
-]);
+	]);
+});
 
-Route::group([ 'prefix'=>'secrecy','middleware'=>['auth:secrecyuser', 'disablepreventback']], function(){
+
+
+
+
+
+Route::group([ 'prefix'=>'secrecy','middleware'=>['auth:secrecyuser', 'disablepreventback','XSS']], function(){
 
 		Route::get('/secdashboard',[
 				'uses' => 'Admin\SecrecyUsersController@home',
@@ -295,18 +302,20 @@ Route::group([ 'prefix'=>'secrecy','middleware'=>['auth:secrecyuser', 'disablepr
 	/ --------------------------------------
 */
 
+Route::group(['middleware' => ['XSS']], function () {
 
-Route::get('/login/specialuser',[
-		'uses' => 'Admin\SpecialUsersController@loginSpecialUser',
-		'as'   => 'specialuser.login'
-]);
+		Route::get('/login/specialuser',[
+			'uses' => 'Admin\SpecialUsersController@loginSpecialUser',
+			'as'   => 'specialuser.login'
+		]);
 
-Route::post('/login/specialuser', [
+		Route::post('/login/specialuser', [
 		'uses'=>  'Admin\SpecialUsersController@specialUserAuth',
 		'as'  =>  'specialuser.login'
-	]);
+		]);
+});
 
-Route::group([ 'prefix'=>'special','middleware'=>'auth:specialuser'], function(){
+Route::group([ 'prefix'=>'special','middleware'=>'auth:specialuser','XSS'], function(){
 
 		Route::get('/sdashboard',[
 				'uses' => 'Admin\SpecialUsersController@home',
@@ -392,18 +401,18 @@ Route::group([ 'prefix'=>'special','middleware'=>'auth:specialuser'], function()
 	/ College Degree Admins Routes Controlling Section
 	/ --------------------------------------
 */
-
-Route::get('/login/degadmin',[
+Route::group(['middleware' => ['XSS']], function () {
+	Route::get('/login/degadmin',[
 		'uses' => 'Front\DegAdmin\DegreesAdminsController@loginDegAdmin',
 		'as'   => 'degadmin.login'
-]);
+	]);
 
-Route::post('/login/degadmin', [
+	Route::post('/login/degadmin', [
 		'uses'=>  'Front\DegAdmin\DegreesAdminsController@DegAdminAuth',
 		'as'  =>  'degadmin.login'
-]);
-
-Route::group([ 'prefix'=>'degAdmin','middleware'=>'auth:degAdmin'], function(){
+	]);
+});
+Route::group([ 'prefix'=>'degAdmin','middleware'=>'auth:degAdmin','XSS'], function(){
 
 		Route::get('/degAdmindashboard',[
 				'uses' => 'Front\DegAdmin\DegreesAdminsController@home',
@@ -455,25 +464,24 @@ Route::group([ 'prefix'=>'degAdmin','middleware'=>'auth:degAdmin'], function(){
 	/ Teacher Routes Controlling Section
 	/ --------------------------------------
 */
-
-Route::get('/teachers/registration',[
+Route::group(['middleware' => ['XSS']], function () {
+	Route::get('/teachers/registration',[
 		'uses' => 'Front\TeachersController@create',
 		'as'   => 'teacher.create'
+	]);
 
-
-]);
-Route::post('/register/teacher', [
+	Route::post('/register/teacher', [
 		'uses'  => 'Front\TeachersController@registerTeachers',
 		'as'    => 'register.teacher'
-]);
+	]);
 
-Route::post('/login/teacher', [
+	Route::post('/login/teacher', [
 		'uses' => 'Front\TeachersController@TeacherAuth',
 		'as'   => 'teacher.login',
-]);
+	]);
+});
 
-
-Route::group([ 'prefix'=>'teacher','middleware'=>'auth:teacher'], function(){
+Route::group([ 'prefix'=>'teacher','middleware'=>'auth:teacher','XSS'], function(){
 		
 		
 		Route::post('/logout/teacher',[ 
@@ -504,38 +512,34 @@ Route::group([ 'prefix'=>'teacher','middleware'=>'auth:teacher'], function(){
 	/ Student Routes Controlling Section
 	/ --------------------------------------
 */
-
-Route::get('/student/registration',[
+Route::group(['middleware' => ['XSS']], function () {
+	Route::get('/student/registration',[
 		'uses' => 'Front\StudentsController@create',
 		'as'   => 'student.create'
+	]);
 
+	Route::post('/register/student', [
+			'uses'  => 'Front\StudentsController@registerStudents',
+			'as'    => 'register.student'
+	]);
 
-]);
-Route::post('/register/student', [
-		'uses'  => 'Front\StudentsController@registerStudents',
-		'as'    => 'register.student'
-]);
+	Route::get('/student/login',[
+			'uses' => 'Front\StudentsController@studentLogin',
+			'as'   => 'login.student'
+	]);
 
-Route::get('/student/login',[
-		'uses' => 'Front\StudentsController@studentLogin',
-		'as'   => 'login.student'
-
-
-]);
-
-Route::post('/login/student', [
+	Route::post('/login/student', [
 		'uses' => 'Front\StudentsController@StudentAuth',
 		'as'   => 'student.login',
-]);
+	]);
 
-
-
-Route::post('/student/college/degree',[
+	Route::post('/student/college/degree',[
 		'uses'  => 'Front\StudentsController@checkCollegesDegrees',
 		'as'    => 'check.college.degrees'
-]);
+	]);
+});
 
-Route::group([ 'prefix'=>'student','middleware'=>['auth:student','protectStudentLogin']], function(){
+Route::group([ 'prefix'=>'student','middleware'=>['auth:student','protectStudentLogin','XSS']], function(){
 		
 		
 		Route::post('/logout/student',[ 
@@ -579,27 +583,29 @@ Route::group([ 'prefix'=>'student','middleware'=>['auth:student','protectStudent
 	/ Clerks Routes Controlling Section
 	/ --------------------------------------
 */
-
-Route::get('/login/clerk',[
+Route::group(['middleware' => ['XSS']], function () {
+	Route::get('/login/clerk',[
 		'uses' => 'Front\Staff\StaffsController@clerkLogin',
 		'as'   => 'clerk.login'
-]);
+	]);
 
-Route::post('/login/clerk', [
+	Route::post('/login/clerk', [
 		'uses'=>  'Front\Staff\StaffsController@clerkAuth',
 		'as'  =>  'clerk.login'
-]);
+	]);
 
-Route::get('/loginfirst/clerk',[
+	Route::get('/loginfirst/clerk',[
 		'uses' => 'Front\Staff\StaffsController@clerkFirstLogin',
 		'as'   => 'clerk.firstlogin'
-]);
+	]);
 
-Route::post('/loginfirst/clerk',[
+	Route::post('/loginfirst/clerk',[
 		'uses' => 'Front\Staff\StaffsController@clerkFirstProcess',
 		'as'   => 'clerk.first.login.process'
-]);
-Route::group([ 'prefix'=>'clerk','middleware'=>'auth:clerk'], function(){
+	]);
+});
+
+Route::group([ 'prefix'=>'clerk','middleware'=>'auth:clerk','XSS'], function(){
 		
 		
 		Route::post('/logout/clerk',[ 
