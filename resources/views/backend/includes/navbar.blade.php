@@ -4,7 +4,7 @@
         <div class="top-bar">
           <!-- .top-bar-brand -->
           <div class="top-bar-brand">
-             <a href="{{ route('home') }}" style="font-weight: 500;line-height: 1rem;">Admin Dashboard</a>
+             <a href="{{ route('dashboard') }}" style="font-weight: 500;line-height: 1rem;">Admin Dashboard</a>
           </div>
           <!-- /.top-bar-brand -->
           <!-- .top-bar-list -->
@@ -289,7 +289,8 @@
               <!-- /.nav -->
               <!-- .btn-account -->
               <div class="dropdown">
-                <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="backend/images/avatars/profile.jpg" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ ucwords(Auth::user()->name) }}</span> <span class="account-description">Administrator</span></span></button>
+                <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md">
+                  <img  src="{{asset('backend/images/avatars/profile.jpg')}}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ ucwords(Auth::user()->name) }}</span> <span class="account-description">Administrator</span></span></button>
               <div class="dropdown-arrow dropdown-arrow-left"></div><!-- .dropdown-menu -->
               <div class="dropdown-menu">
                 <h6 class="dropdown-header d-none d-md-block d-lg-none"> Beni Arisandi </h6><a class="dropdown-item" href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> Profile</a> 
