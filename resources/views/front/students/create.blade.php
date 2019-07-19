@@ -106,6 +106,15 @@
 	<div class="row justify-content-center">
 		<div class="col-md-12">
 			<div class="card">
+				@if ($errors->any())
+				    <div class="alert alert-danger">
+				        <ul>
+				            @foreach ($errors->all() as $error)
+				                <li>{{ $error }}</li>
+				            @endforeach
+				        </ul>
+				    </div>
+				@endif
 				<div class="card-header">
 					<span style="font-size: 18px; font-weight: bold;">Students Sign Up Form</span> <i class="fa fa-user-alt fa-lg float-right"></i>
 				</div>
@@ -625,7 +634,7 @@
 					stdDepartment: {
 						required: true,
 					},
-					stdDegree: {
+					stdSession: {
 						required: true,
 					},
 					stdDegree:{
@@ -860,9 +869,9 @@
 					},
 					stdContact:{
 						required:true,
-	               minlength:13,
-	               maxlength:13,
-	               validMobile: true,
+	               		minlength:13,
+	               		maxlength:13,
+	               	validMobile: true,
 					}
 				},
 				highlight: function (element) {

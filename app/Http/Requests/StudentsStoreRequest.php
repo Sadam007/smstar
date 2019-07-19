@@ -13,7 +13,7 @@ class StudentsStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,28 @@ class StudentsStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+     public function rules()
     {
         return [
-            //
+            'stdDepartment'   => 'required',
+            'stdSession'      => 'required',
+            'stdDegree'       => 'required',
+            'stdName'         => 'required|min:3',
+            'stdfName'        => 'required|min:3',
+            'stddob'          => 'required',
+            'stdDomicile'     => 'required',
+            'stdAddress'      => 'required',
+            'stdPhoto'        => 'required',
+            'metricSelect'    => 'required',
+            'metricGroup'     => 'required',
+            'metricRollno'    => 'required|numeric',
+            'metricYear'      => 'required|numeric',
+            'metricObtMarks'  => 'required|numeric',
+            'metricTotMarks'  => 'required|numeric',
+            'metricInstitue'  => 'required',
+            'fscBoard'        => 'required',
+            'stdEmail'        => 'required|email',
+            'stdContact'      => 'required|min:13|max:13',
         ];
     }
 }

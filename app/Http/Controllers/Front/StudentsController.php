@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StudentsStoreRequest;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Models\StudentTb;
@@ -50,9 +51,9 @@ class StudentsController extends Controller
         return view('front.students.login');
     }
 
-public function registerStudents(Request $request){
+public function registerStudents(StudentsStoreRequest $request){
 
-        
+        $validated = $request->validated();
         $stdDepartment   = $request->stdDepartment;
         $stdSession      = $request->stdSession;
         $sessionId       = $request->sessionId;
