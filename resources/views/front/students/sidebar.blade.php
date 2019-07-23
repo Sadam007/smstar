@@ -13,8 +13,8 @@
                 <span class="fa fa-caret-down fa-lg"></span>
               </span>
               <span class="account-summary">
-                <span class="account-name">Sadam Hussain</span>
-                <span class="account-description">Marketing Manager</span>
+                <span class="account-name">{{ strtoupper(Auth('student')->user()->stdName) }}</span>
+                <span class="account-description">Student</span>
               </span>
             </button>
             <!-- /.btn-account -->
@@ -24,12 +24,9 @@
               <div class="pb-3">
                 <a class="dropdown-item" href="user-profile.html">
                   <span class="dropdown-icon oi oi-person"></span> Profile</a>
-                <a class="dropdown-item" href="auth-signin-v1.html">
+                <a class="dropdown-item" href="{{ route('student.logout') }}">
                   <span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Help Center</a>
-                <a class="dropdown-item" href="#">Ask Forum</a>
-                <a class="dropdown-item" href="#">Keyboard Shortcuts</a>
+                
               </div>
               <!-- /dropdown-items -->
             </div>
@@ -49,30 +46,14 @@
                     <span class="menu-text">Dashboard</span>
                   </a>
                 </li>
-                <!-- /.menu-item -->
-                <!-- .menu-item -->
-                <li class="menu-item has-child">
-                  <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-browser"></span>
-                    <span class="menu-text">Layouts</span>
-                  </a>
-                  <!-- child menu -->
-                  <ul class="menu">
-                    <li class="menu-item">
-                      <a href="layout-blank.html" class="menu-link">Blank Page</a>
-                    </li>
-                  </ul>
-                  <!-- /child menu -->
-                </li>
-                <!-- /.menu-item -->
-                <!-- .menu-header -->
-                <li class="menu-header">Latest Updates </li>
+               
+                <li class="menu-header">Examination Links </li>
                 <!-- /.menu-header -->
                 <!-- .menu-item -->
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
                     <span class="menu-icon oi oi-puzzle-piece"></span>
-                    <span class="menu-text">Exam Management</span>
+                    <span class="menu-text">Examination</span>
                   </a>
                   <!-- child menu -->
                   <ul class="menu">

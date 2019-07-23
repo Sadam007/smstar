@@ -485,40 +485,30 @@ class DegreesAdminsController extends Controller
         $examcode  =  ExamCodeTb::where('is_active',1)->pluck('examcode');
         $examcode  =  $examcode[0]; 
 
-        /*$degreesPdfs = DB::table('roll_no_com_dets')
-                            ->join('roll_no_tbs','roll_no_tbs.rollno','=','roll_no_com_dets.rollno')
-                            ->join('student_tbs','student_tbs.regno','=','roll_no_tbs.regno')
-                            ->join('subject_tbs','subject_tbs.code','=','roll_no_com_dets.subcode')
-                            
-                        
 
-                        // ->join('student_tbs','student_tbs.regno','=','roll_no_tbs.regno')
-                        //->join('subject_tbs','subject_tbs.code','=','roll_no_com_dets.subcode')
-                        ->select('roll_no_com_dets.rollno','roll_no_com_dets.obt40','roll_no_com_dets.subcode','student_tbs.regno','student_tbs.stdName','student_tbs.stdfName','roll_no_tbs.regno','roll_no_tbs.colcode')
-                        ->where(['student_tbs.degree_id'=>$degree,'student_tbs.department_id' => $degAdmin_department,'roll_no_com_dets.examcode' =>$examcode])
-                        // ->groupBy('subject_tbs.semester_id')
-                        // ->orderBy('roll_no_tbs.rollno','ASC')
-                        // ->distinct('roll_no_tbs.rollno')
-                        ->get();*/
-        $degreesPdfs  = DB::select("SELECT DISTINCT roll_no_com_dets.rollno,roll_no_com_dets.obt40,roll_no_com_dets.subcode,subject_tbs.code,subject_tbs.Na, roll_no_tbs.rollno,roll_no_tbs.regno,student_tbs.regno,student_tbs.stdName,student_tbs.stdfName FROM roll_no_com_dets INNER JOIN subject_tbs ON subject_tbs.code = roll_no_com_dets.subcode LEFT JOIN roll_no_tbs ON roll_no_tbs.rollno = roll_no_com_dets.rollno LEFT JOIN student_tbs ON student_tbs.regno = roll_no_tbs.regno WHERE student_tbs.degree_id = $degree");
-
-        dd($degreesPdfs);                
-
-       /* $degreesPdfs = DB::table('roll_no_tbs')  
+        $degreesPdfs  = DB::table('student_tbs')
+                            ->join('roll_no_tbs','roll_no_tbs.regno','=','student_tbs.regno')
                             ->join('roll_no_com_dets','roll_no_com_dets.rollno','=','roll_no_tbs.rollno')
-                            ->join('student_tbs','student_tbs.regno','=','roll_no_tbs.regno')
+                            ->join('college_tbs','college_tbs.college_id','student_tbs.department_id')
+                            ->leftjoin('subject_tbs','subject_tbs.code','=','roll_no_com_dets.subcode')
 
 
-                            ->select('roll_no_tbs.*','roll_no_com_dets.*','student_tbs.stdName','student_tbs.stdfName')
-                            ->orderBy('roll_no_tbs.rollno','ASC')
+                            ->select('student_tbs.regno','student_tbs.stdName','student_tbs.stdfName','student_tbs.department_id','student_tbs.degree_id','roll_no_tbs.rollno','roll_no_com_dets.subcode','subject_tbs.Na','subject_tbs.semester_id','college_tbs.name')
 
-                            ->where(['roll_no_com_dets.examcode' =>$examcode,'student_tbs.degree_id'=>$degree])
-                            ->distinct('roll_no_tbs.regno')
+                            ->where(['student_tbs.department_id' => $degAdmin_department,'student_tbs.degree_id' => $degree])
+                            ->distinct(['roll_no_com_dets.subcode','student_tbs.regno'])
+                            ->orderBy('subject_tbs.semester_id')
+                            ->get();
+
+        dd($degreesPdfs);
 
 
-                            ->get();           
+        
+        /*$degreesPdfs  = DB::select("SELECT DISTINCT roll_no_com_dets.rollno,roll_no_com_dets.obt40,roll_no_com_dets.subcode,subject_tbs.code,subject_tbs.Na, roll_no_tbs.rollno,roll_no_tbs.regno,student_tbs.regno,student_tbs.stdName,student_tbs.stdfName FROM roll_no_com_dets INNER JOIN subject_tbs ON subject_tbs.code = roll_no_com_dets.subcode LEFT JOIN roll_no_tbs ON roll_no_tbs.rollno = roll_no_com_dets.rollno LEFT JOIN student_tbs ON student_tbs.regno = roll_no_tbs.regno WHERE student_tbs.degree_id = $degree AND student_tbs.department_id = $degAdmin_department");
 
-        dd($degreesPdfs);           */     
+        dd($degreesPdfs); */               
+
+           
     }
 
     public  function getDepartment(){
