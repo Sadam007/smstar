@@ -17,6 +17,7 @@ use App\TeacherTb;
 use Auth;
 use DB;
 use Session;
+use PDF;
 
 class DegreesAdminsController extends Controller
 {
@@ -497,10 +498,28 @@ class DegreesAdminsController extends Controller
 
                             ->where(['student_tbs.department_id' => $degAdmin_department,'student_tbs.degree_id' => $degree])
                             ->distinct(['roll_no_com_dets.subcode','student_tbs.regno'])
-                            ->orderBy('subject_tbs.semester_id')
+                            ->orderBy('roll_no_com_dets.rollno')
                             ->get();
 
-        dd($degreesPdfs);
+
+        $pdf = PDF::loadView('front.degadmins.degrees-pdf', array('degreesPdfs' => $degreesPdfs));
+            return $pdf->stream('invoice.pdf');
+
+
+        /*$degreesPdfs = $degreesPdfs->toArray();
+
+        if(count($degreesPdfs) > 0 ){
+
+            $pdf = PDF::loadView('front.degadmins.degrees-pdf', arrary('degreesPdfs'=>$degreesPdfs))
+            ;
+            return $pdf->stream('itsolutionstuff.pdf');
+        }
+        else{
+            return redirect()->back();
+        }         */           
+        
+
+       
 
 
         
