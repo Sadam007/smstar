@@ -233,9 +233,19 @@
                       <div class="dropdown-sheet-item">
                         <a href="#" class="tile-wrapper">
                           <span class="tile tile-lg bg-indigo">
+                            <i class="fa fa-building"></i>
+                          </span>
+                          <span class="tile-peek">Colleges</span>
+                        </a>
+                      </div>
+                       <!-- /.dropdown-sheet-item -->
+                      <!-- .dropdown-sheet-item -->
+                      <div class="dropdown-sheet-item">
+                        <a href="#" class="tile-wrapper">
+                          <span class="tile tile-lg bg-pink">
                             <i class="oi oi-people"></i>
                           </span>
-                          <span class="tile-peek">Teams</span>
+                          <span class="tile-peek">Teachers</span>
                         </a>
                       </div>
                       <!-- /.dropdown-sheet-item -->
@@ -243,9 +253,9 @@
                       <div class="dropdown-sheet-item">
                         <a href="#" class="tile-wrapper">
                           <span class="tile tile-lg bg-teal">
-                            <i class="oi oi-fork"></i>
+                            <i class="fa fa-graduation-cap"></i>
                           </span>
-                          <span class="tile-peek">Projects</span>
+                          <span class="tile-peek">Degrees</span>
                         </a>
                       </div>
                       <!-- /.dropdown-sheet-item -->
@@ -253,31 +263,24 @@
                       <div class="dropdown-sheet-item">
                         <a href="#" class="tile-wrapper">
                           <span class="tile tile-lg bg-pink">
-                            <i class="fa fa-tasks"></i>
+                            <i class="fa fa-book"></i>
                           </span>
-                          <span class="tile-peek">Tasks</span>
+                          <span class="tile-peek">Subjects</span>
                         </a>
                       </div>
-                      <!-- /.dropdown-sheet-item -->
-                      <!-- .dropdown-sheet-item -->
-                      <div class="dropdown-sheet-item">
-                        <a href="#" class="tile-wrapper">
-                          <span class="tile tile-lg bg-yellow">
-                            <i class="oi oi-fire"></i>
-                          </span>
-                          <span class="tile-peek">Feeds</span>
-                        </a>
-                      </div>
+                      
+                      
                       <!-- /.dropdown-sheet-item -->
                       <!-- .dropdown-sheet-item -->
                       <div class="dropdown-sheet-item">
                         <a href="#" class="tile-wrapper">
                           <span class="tile tile-lg bg-cyan">
-                            <i class="oi oi-document"></i>
+                            <i class="oi oi-people"></i>
                           </span>
-                          <span class="tile-peek">Files</span>
+                          <span class="tile-peek">Students</span>
                         </a>
                       </div>
+
                       <!-- /.dropdown-sheet-item -->
                     </div>
                     <!-- .dropdown-sheets -->
@@ -302,7 +305,7 @@
                     @csrf
                   </form>
                   
-                <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Help Center</a> <a class="dropdown-item" href="#!">Ask Forum</a> <a class="dropdown-item" href="#!">Keyboard Shortcuts</a>
+                <!-- <div class="dropdown-divider"></div> -->
               </div><!-- /.dropdown-menu -->
             </div><!-- /.btn-account -->
             <!-- /.top-bar-item -->

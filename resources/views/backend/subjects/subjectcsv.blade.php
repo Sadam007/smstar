@@ -257,9 +257,6 @@
   <nav id="nav-content" class="nav flex-column mt-4">
    <a href="#base-style" class="nav-link smooth-scroll">Add Subjects</a>
    <a href="#table-show" class="nav-link smooth-scroll">All Subjects</a>
-   <a href="#floating-label" class="nav-link smooth-scroll">Floating label</a>
-   <a href="#selects" class="nav-link smooth-scroll">Selects</a>
-   <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a>
 </nav>
 </div>
 </div>

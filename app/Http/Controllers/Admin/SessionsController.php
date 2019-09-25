@@ -124,6 +124,58 @@ class SessionsController extends Controller{
     }
 
 
+    public function singleSession(){
+        return view('backend.sessions.single-session');
+    }
+
+    public function singleSessionProcess(Request $request){
+        $this->validate($request, [
+            'sessionFormat' => 'required',
+            'sessYears' => 'required',
+            'startDate' => 'required',
+            'endDate' => 'required',
+        ]);
+
+
+
+        $user_id    = Auth::id();
+
+        $sessStart  = $request->startDate;
+        $sessEnd    = $request->endDate;
+
+        $sessCodeStart  = explode('/', $sessStart);
+        $sessCodeEnd    = explode('/', $sessEnd);
+
+        $sessCodeStart  = $sessCodeStart[2];
+        $sessCodeEnd    = $sessCodeEnd[2];
+
+        $shortSessStart = substr($sessCodeStart, 2,2);
+        $shortSessEnd   = substr($sessCodeEnd, 2,2);
+
+        $sessionCode    = $shortSessStart.$shortSessEnd;
+        $session        = $request->sessionFormat;
+        $sessYears      = $request->sessYears;
+
+        $startDate      = $request->startDate;
+        $endDate        = $request->endDate;
+
+    
+        
+        $create = SessionTb::create([
+                        "user_id" => $user_id,
+                        "sessionCode" => $sessionCode,
+                        "session" => $session,
+                        "status" => 0,
+                        "sessYear" => $sessYears,
+                        "startDate" => $startDate,
+                        "endDate" => $endDate,
+                    ]);
+
+        Session::flash('success','Session added successfully.');
+        return redirect()->route('sessioncsv');
+    }
+
+
     /**
      * Display the specified resource.
      *

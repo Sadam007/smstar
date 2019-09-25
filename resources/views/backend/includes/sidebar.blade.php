@@ -13,8 +13,8 @@
                 <span class="fa fa-caret-down fa-lg"></span>
               </span>
               <span class="account-summary">
-                <span class="account-name">Sadam Hussain</span>
-                <span class="account-description">Marketing Manager</span>
+                <span class="account-name">{{ ucwords(Auth::user()->name) }}</span>
+                <span class="account-description">Administrator</span>
               </span>
             </button>
             <!-- /.btn-account -->
@@ -24,12 +24,14 @@
               <div class="pb-3">
                 <a class="dropdown-item" href="user-profile.html">
                   <span class="dropdown-icon oi oi-person"></span> Profile</a>
-                <a class="dropdown-item" href="auth-signin-v1.html">
-                  <span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Help Center</a>
-                <a class="dropdown-item" href="#">Ask Forum</a>
-                <a class="dropdown-item" href="#">Keyboard Shortcuts</a>
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();"><span class="dropdown-icon oi oi-account-logout"></span>  {{ __('Logout') }}</a>
+
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                  </form>
+                <!-- <div class="dropdown-divider"></div> -->
+          
               </div>
               <!-- /dropdown-items -->
             </div>
@@ -51,43 +53,14 @@
                 </li>
                 <!-- /.menu-item -->
                 <!-- .menu-item -->
-                <li class="menu-item has-child">
-                  <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-browser"></span>
-                    <span class="menu-text">Layouts</span>
-                    <span class="badge badge-success">20+</span>
-                  </a>
-                  <!-- child menu -->
-                  <ul class="menu">
-                    <li class="menu-item">
-                      <a href="layout-blank.html" class="menu-link">Blank Page</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="layout-nosearch.html" class="menu-link">Header no Search</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="layout-fullwidth.html" class="menu-link">Full Width</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="layout-pagenavs.html" class="menu-link">Page Navs</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="layout-pagesidebar.html" class="menu-link">Page Sidebar</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="layout-pagecover.html" class="menu-link">Page Cover</a>
-                    </li>
-                  </ul>
-                  <!-- /child menu -->
-                </li>
-                <!-- /.menu-item -->
+                
                 <!-- .menu-header -->
                 <li class="menu-header">Student Management </li>
                 <!-- /.menu-header -->
                 <!-- .menu-item -->
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-puzzle-piece"></span>
+                    <span class="menu-icon oi oi-clock"></span>
                     <span class="menu-text">Sessions Management</span>
                   </a>
                   <!-- child menu -->
@@ -105,7 +78,7 @@
                 <!-- .menu-item -->
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-pencil"></span>
+                    <span class="menu-icon oi oi-basket"></span>
                     <span class="menu-text">Colleges Management</span>
                   </a>
                   <!-- child menu -->
@@ -123,7 +96,7 @@
                 <!-- .menu-item -->
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-grid-two-up"></span>
+                    <span class="menu-icon oi oi-book"></span>
                     <span class="menu-text">Degrees Management</span>
                   </a>
                   <!-- child menu -->
@@ -132,7 +105,7 @@
                       <a href="{{ route('degreecsv') }}" class="menu-link">Add Degrees</a>
                     </li>
                     <li class="menu-item">
-                      <a href="table-datatables.html" class="menu-link">All Degrees</a>
+                      <a href="{{ route('degreecsv') }}" class="menu-link">All Degrees</a>
                     </li>
                   </ul>
                   <!-- /child menu -->
@@ -148,14 +121,14 @@
                       <a href="{{ route('subjectcsv') }}" class="menu-link">Add Subjects</a>
                     </li>
                     <li class="menu-item">
-                      <a href="table-datatables.html" class="menu-link">All Degrees</a>
+                      <a href="{{ route('subjectcsv') }}" class="menu-link">All Subjects</a>
                     </li>
                   </ul>
                   <!-- /child menu -->
                 </li>
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-book"></span>
+                    <span class="menu-icon oi oi-clock"></span>
                     <span class="menu-text">Exams Management</span>
                   </a>
                   <!-- child menu -->
@@ -171,7 +144,7 @@
                 </li>
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-wrench"></span>
+                    <span class="menu-icon oi oi-people"></span>
                     <span class="menu-text">Student Management</span>
                   </a>
                   <!-- child menu -->
@@ -203,7 +176,7 @@
 
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-list-rich"></span>
+                    <span class="menu-icon oi oi-share"></span>
                     <span class="menu-text">Exports Management</span>
                   </a>
                   <!-- child menu -->
@@ -223,7 +196,7 @@
                 </li>
                 <li class="menu-item has-child">
                   <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-list-rich"></span>
+                    <span class="menu-icon oi oi-transfer"></span>
                     <span class="menu-text">DB Synchronization</span>
                   </a>
                   <!-- child menu -->
@@ -257,58 +230,21 @@
                     <li class="menu-item">
                       <a href="user-profile.html" class="menu-link">Profile</a>
                     </li>
-                    <li class="menu-item">
-                      <a href="user-activities.html" class="menu-link">Activities</a>
+                
+                    <li class="menu-item"><a class="menu-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">  {{ __('Logout') }}</a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      </li>
+                    @csrf
+                  </form>
                     </li>
-                    <li class="menu-item">
-                      <a href="user-teams.html" class="menu-link">Teams</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="user-projects.html" class="menu-link">Projects</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="user-tasks.html" class="menu-link">Tasks</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="user-profile-settings.html" class="menu-link">Profile Settings</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="user-account-settings.html" class="menu-link">Account Settings</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="user-billing-settings.html" class="menu-link">Billing Settings</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="user-notification-settings.html" class="menu-link">Notification Settings</a>
-                    </li>
+                    
                   </ul>
                   <!-- /child menu -->
                 </li>
                 <!-- /.menu-item -->
-                <!-- .menu-item -->
-                <li class="menu-item has-child">
-                  <a href="#" class="menu-link">
-                    <span class="menu-icon oi oi-infinity"></span>
-                    <span class="menu-text">Apps</span>
-                  </a>
-                  <!-- child menu -->
-                  <ul class="menu">
-                    <li class="menu-item">
-                      <a href="app-messages.html" class="menu-link">Messages</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="app-conversations.html" class="menu-link">Conversations</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="app-tasks.html" class="menu-link">Tasks</a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="app-feeds.html" class="menu-link">Feeds</a>
-                    </li>
-                  </ul>
-                  <!-- /child menu -->
-                </li>
-                <!-- /.menu-item -->
+                
               </ul>
               <!-- /.menu -->
             </nav>

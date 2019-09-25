@@ -289,11 +289,9 @@ span.select2-selection.select2-selection--single {
       <p><br></p>
       <h3 class="page-title" style="font-size: 20px;margin-bottom:-20px;margin-top: 30px;margin-left: 12px;"> Relevant Links </h3>
       <nav id="nav-content" class="nav flex-column mt-4">
-         <a href="#base-style" class="nav-link smooth-scroll">Add Colleges</a>
-         <a href="#table-show" class="nav-link smooth-scroll">All Colleges</a>
+         <a href="{{ route('collegecsv') }}" class="nav-link smooth-scroll">Add Colleges</a>
+         <a href="{{ route('collegecsv') }}" class="nav-link smooth-scroll">All Colleges</a>
          <a href="{{ route('specialusers.create') }}" class="nav-link smooth-scroll">College Users</a>
-         <a href="#selects" class="nav-link smooth-scroll">Selects</a>
-         <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a>
       </nav>
    </div>
 </div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SessionTb extends Model
 {
-    protected $fillable = ['user_id','sessionCode','session','status','startDate','endDate'];
+    protected $fillable = ['user_id','sessionCode','session','status','sessYear','startDate','endDate'];
 
 
     public function user() {

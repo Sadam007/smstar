@@ -93,7 +93,7 @@
                       @foreach($degrees as $degree)
                            <tr>
                             <td class="align-middle">
-                              <a href="{{ route('crossTabDegreespdf',['degree'=>$degree->DegCode]) }}"> {{ $degree->Det1 }} 
+                              <a href="{{ route('crossTabDegreespdf',['degree'=>$degree->DegCode]) }}" target="_blank"> {{ $degree->Det1 }} 
                               </a>
                             </td>
 

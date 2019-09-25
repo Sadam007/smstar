@@ -66,6 +66,18 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		'as'   => 'sessiondel1'
 		]);
 
+		Route::get('/signle/session',[
+			'uses' =>'Admin\SessionsController@singleSession',
+			'as'   => 'singleSession'
+
+		]);
+
+		Route::post('/signle/session',[
+			'uses' =>'Admin\SessionsController@singleSessionProcess',
+			'as'   => 'singleSession'
+
+		]);
+
 		Route::get('/collegecsv',[
 		'uses' => 'Admin\CollegesController@collegecsv',
 		'as'   => 'collegecsv'

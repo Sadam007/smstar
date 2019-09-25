@@ -1,11 +1,12 @@
 <?php
 
+namespace App\Libraries;
+
 namespace App\Http\Controllers\Front\DegAdmin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\Hash;
 use App\Models\StudentTb;
 use App\Models\ExamCodeTb;
@@ -486,47 +487,33 @@ class DegreesAdminsController extends Controller
         $examcode  =  ExamCodeTb::where('is_active',1)->pluck('examcode');
         $examcode  =  $examcode[0]; 
 
+        $student_records=DB::select("SELECT DISTINCT student_tbs.regno,student_tbs.stdName,student_tbs.stdfName,student_tbs.department_id,student_tbs.degree_id,college_tbs.name FROM student_tbs INNER JOIN  college_tbs ON  college_tbs.college_id = student_tbs.department_id WHERE  department_id = $degAdmin_department AND degree_id = $degree");
+    
+        $all_records = array();
+                    
+        foreach ($student_records as $record){
+            $regno = $record->regno;
+            $department_id = $record->department_id;
 
-        $degreesPdfs  = DB::table('student_tbs')
-                            ->join('roll_no_tbs','roll_no_tbs.regno','=','student_tbs.regno')
-                            ->join('roll_no_com_dets','roll_no_com_dets.rollno','=','roll_no_tbs.rollno')
-                            ->join('college_tbs','college_tbs.college_id','student_tbs.department_id')
-                            ->leftjoin('subject_tbs','subject_tbs.code','=','roll_no_com_dets.subcode')
+            //GROUP BY dbo_web_part.OneRTwo
 
+            $student_rollnos = DB::select("SELECT DISTINCT roll_no_tbs.regno,roll_no_tbs.rollno,roll_no_com_dets.subcode,roll_no_com_dets.obt40,subject_tbs.Na,subject_tbs.semester_id,subject_tbs.hours,dbo_web_part.P_name,dbo_web_part.OneRTwo FROM  roll_no_tbs INNER JOIN roll_no_com_dets ON roll_no_com_dets.rollno = roll_no_tbs.rollno LEFT JOIN subject_tbs ON subject_tbs.code   = roll_no_com_dets.subcode LEFT JOIN dbo_web_part ON  dbo_web_part.part = roll_no_tbs.part WHERE roll_no_tbs.regno= $regno  ORDER BY  roll_no_com_dets.rollno");
 
-                            ->select('student_tbs.regno','student_tbs.stdName','student_tbs.stdfName','student_tbs.department_id','student_tbs.degree_id','roll_no_tbs.rollno','roll_no_com_dets.subcode','subject_tbs.Na','subject_tbs.semester_id','college_tbs.name')
+            $all_records[] = array('students'=>$record,'rollnos'=>$student_rollnos);
 
-                            ->where(['student_tbs.department_id' => $degAdmin_department,'student_tbs.degree_id' => $degree])
-                            ->distinct(['roll_no_com_dets.subcode','student_tbs.regno'])
-                            ->orderBy('roll_no_com_dets.rollno')
-                            ->get();
-
-
-        $pdf = PDF::loadView('front.degadmins.degrees-pdf', array('degreesPdfs' => $degreesPdfs));
-            return $pdf->stream('invoice.pdf');
-
-
-        /*$degreesPdfs = $degreesPdfs->toArray();
-
-        if(count($degreesPdfs) > 0 ){
-
-            $pdf = PDF::loadView('front.degadmins.degrees-pdf', arrary('degreesPdfs'=>$degreesPdfs))
-            ;
-            return $pdf->stream('itsolutionstuff.pdf');
         }
-        else{
-            return redirect()->back();
-        }         */           
-        
 
-       
+        $degrees  =  DB::select("SELECT Det1 FROM `degree_tbs` WHERE DegCode = $degree");   
+        $Det1 = $degrees[0]->Det1;    
+        $modifyDet1 =  str_replace(" ", "-", $Det1);
+        $filename   = $modifyDet1;
+            
+        // return view('front.degadmins.degrees-pdf', compact('all_records'));
 
-
-        
-        /*$degreesPdfs  = DB::select("SELECT DISTINCT roll_no_com_dets.rollno,roll_no_com_dets.obt40,roll_no_com_dets.subcode,subject_tbs.code,subject_tbs.Na, roll_no_tbs.rollno,roll_no_tbs.regno,student_tbs.regno,student_tbs.stdName,student_tbs.stdfName FROM roll_no_com_dets INNER JOIN subject_tbs ON subject_tbs.code = roll_no_com_dets.subcode LEFT JOIN roll_no_tbs ON roll_no_tbs.rollno = roll_no_com_dets.rollno LEFT JOIN student_tbs ON student_tbs.regno = roll_no_tbs.regno WHERE student_tbs.degree_id = $degree AND student_tbs.department_id = $degAdmin_department");
-
-        dd($degreesPdfs); */               
-
+        $pdf = PDF::loadView('front.degadmins.degrees-pdf', compact('all_records','degrees'));
+        $pdf->setPaper('A4', 'portrait');       
+        return $pdf->stream($filename);
+        //return $pdf->download('invoice.pdf');
            
     }
 

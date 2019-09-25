@@ -261,7 +261,7 @@
          </div>
       </section>
    </div>
-   <div class="page-sidebar page-sidebar-fixed">
+   <!-- <div class="page-sidebar page-sidebar-fixed">
       <p><br></p>
       <h3 class="page-title" style="font-size: 20px;margin-bottom:-20px;margin-top: 30px;margin-left: 12px;"> Relevant Links </h3>
       <nav id="nav-content" class="nav flex-column mt-4">
@@ -271,7 +271,7 @@
          <a href="#selects" class="nav-link smooth-scroll">Selects</a>
          <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a>
       </nav>
-   </div>
+   </div> -->
 </div>
 </div>
 </div>
