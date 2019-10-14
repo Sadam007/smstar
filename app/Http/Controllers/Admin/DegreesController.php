@@ -118,6 +118,40 @@ class DegreesController extends Controller
        
     }
 
+    public function singleDegree(){
+        return view('backend.degrees.single-degree');
+    }
+
+    public function singleDegreeProcess(Request $request){
+        
+        $this->validate($request, [
+            'degTitle' => 'required',
+            'degDet' => 'required',
+            'degCode' => 'required',
+            'degYears' => 'required',
+        ]);
+
+    
+
+        $user_id    = Auth::id();
+        $degTitle   = strtoupper($request->degTitle);
+        $degDet     = ucwords($request->degDet);
+        $degCode    = $request->degCode;
+        $degYears   = $request->degYears;
+
+        $create = DegreeTb::create([
+                        "user_id" => $user_id,
+                        "M_Title" => $degTitle,
+                        "Det1" => $degDet,
+                        "DegCode" => $degCode,
+                        "degYears" => $degYears
+                    ]);
+
+        Session::flash('success','Degree added successfully.');
+        return redirect()->route('degreecsv');
+
+
+    }
 
     public function show($id)
     {
@@ -144,8 +178,35 @@ class DegreesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $this->validate($request, [
+            'DegCode' => 'required',
+            'Det1' => 'required',
+            'degYears' => 'required',
+           
+        ]);
+
+
+        $update = DegreeTb::find($id);
+        $update->DegCode = $request->DegCode;
+        $update->Det1 =  ucwords($request->Det1);
+        $update->degYears = $request->degYears;
+        $update->save();  
+        Session::flash('success','Degree updated successfully.');
+        return redirect()->route('degreecsv');
     }
+
+
+    public function degreedel($id)
+
+     {  
+
+        $delete = DegreeTb::find($id);
+        $delete->delete();
+
+        Session::flash('success' , 'Record has been deleted successfully');
+        return redirect()->back();
+
+     }
 
     /**
      * Remove the specified resource from storage.

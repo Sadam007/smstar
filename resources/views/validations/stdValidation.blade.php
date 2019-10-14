@@ -107,18 +107,7 @@
 			},
 		});	
 
-		$('#stdSession').select2({
-			width: '100%',
-			placeholder: 'Search Session',
-			language: {
-				noResults: function() {
-					return '<button id="no-results-btn" onclick="noResultsButtonClicked()" class="btn btn-sm">No Result Found</a>';
-				},
-			},
-			escapeMarkup: function(markup) {
-				return markup;
-			},
-		}); 
+		
 
 		$("#metricSelect").on('change',  function(evt) {
 			 evt.preventDefault();
@@ -439,19 +428,18 @@
 				},
 				submitHandler: function (form,ett) {
 
-					var booking_name = $('#name').val();
 					// Form 1 values
 					var stdDepartment  = $('#stdDepartment').val();
 					var stdSession     = $('#stdSession').val();
+
 					var sessionId     = $('#sessionId').val();
 					var stdDegree      = $('#stdDegree').val();
-
 					// Form 2 values
 					var stdName        = $('#stdName').val();
 					var stdfName       = $('#stdfName').val();
 					var stddob         = $('#stddob').val();
 					var stdDomicile    = $('#stdDomicile').val();
-					var stdPhoto       = $('#stdPhoto').val();
+			
 					var stdAddress     = $('#stdAddress').val();
 					// Form 3 values
 					var metricSelect   = $('#metricSelect').val();
@@ -485,6 +473,44 @@
 					var stdEmail       = $('#stdEmail').val();
 					var stdContact     = $('#stdContact').val();
 
+					var data = new FormData();
+					data.set('stdDepartment', stdDepartment);
+					data.set('stdSession', stdSession);
+					data.set('sessionId', sessionId);
+					data.set('stdDegree', stdDegree);
+					data.set('stdName', stdName);
+					data.set('stdfName', stdfName);
+					data.set('stddob', stddob);
+					data.set('stdDomicile', stdDomicile);
+					data.set('stdAddress', stdAddress);
+					data.set('metricSelect', metricSelect);
+					data.set('metricGroup', metricGroup);
+					data.set('metricRollno', metricRollno);
+					data.set('metricYear', metricYear);
+					data.set('metricObtMarks', metricObtMarks);
+					data.set('metricTotMarks', metricTotMarks);
+					data.set('metricInstitue', metricInstitue);
+					data.set('metricBoard', metricBoard);
+					data.set('fscSelect', fscSelect);
+					data.set('fscGroup', fscGroup);
+					data.set('fscRollno', fscRollno);
+					data.set('fscYear', fscYear);
+					data.set('fscObtMarks', fscObtMarks);
+					data.set('fscTotMarks', fscTotMarks);
+					data.set('fscInstitue', fscInstitue);
+					data.set('fscBoard', fscBoard);
+					data.set('bscSelect', bscSelect);
+					data.set('bscGroup', bscGroup);
+					data.set('bscRollno', bscRollno);
+					data.set('bscYear', bscYear);
+					data.set('bscObtMarks', bscObtMarks);
+					data.set('bscTotMarks', bscTotMarks);
+					data.set('bscInstitue', bscInstitue);
+					data.set('bscBoard', bscBoard);
+					data.set('stdEmail', stdEmail);
+					data.set('stdContact', stdContact);
+					
+					data.append('stdPhoto', document.getElementById('stdPhoto').files[0]);
 
 					var url="<?php echo route('register.student');?>";
             		var cur_url="<?php echo route('student.create');?>";
@@ -492,47 +518,7 @@
             	axios({
             		method: 'POST',
             		url: url,
-            		data: {
-              			stdDepartment:   stdDepartment,
-              			stdSession:      stdSession,
-              			sessionId:       sessionId,
-              			stdDegree:       stdDegree,
-              			stdName:         stdName,
-              			stdfName:        stdfName,
-              			stddob:          stddob,
-              			stdDomicile:     stdDomicile,
-              			stdPhoto:        stdPhoto,
-              			stdAddress:      stdAddress,
-              			metricSelect:    metricSelect,
-              			metricGroup:     metricGroup,
-              			metricRollno:    metricRollno,
-              			metricYear:      metricYear,
-              			metricObtMarks:  metricObtMarks,
-              			metricTotMarks:  metricTotMarks,
-              			metricInstitue:  metricInstitue,
-              			metricBoard:     metricBoard,
-              			fscSelect:       fscSelect,
-              			fscGroup:        fscGroup,
-              			fscRollno:       fscRollno,
-              			fscYear:         fscYear,
-              			fscObtMarks:     fscObtMarks,
-              			fscTotMarks:     fscTotMarks,
-              			fscInstitue:     fscInstitue,
-              			fscBoard:        fscBoard,
-
-              			bscSelect:       bscSelect,
-              			bscGroup:        bscGroup,
-              			bscRollno:       bscRollno,
-              			bscYear:         bscYear,
-              			bscObtMarks:     bscObtMarks,
-              			bscTotMarks:     bscTotMarks,
-              			bscInstitue:     bscInstitue,
-              			bscBoard:        bscBoard,
-
-              			stdEmail:        stdEmail,
-              			stdContact:      stdContact,
-
-            		}
+            		data: data
           		})
           		.then(function(res){
           			var tos=res.data[0].message;

@@ -138,6 +138,28 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		'as'   => 'degreecsvpost'
 		]);
 
+		Route::post('/degree/update/{id}',[
+		'uses' =>  'Admin\DegreesController@update',
+		'as'   =>  'degreeupdate'	
+		]);
+
+		Route::get('/signle/degree',[
+			'uses' =>'Admin\DegreesController@singleDegree',
+			'as'   => 'singleDegree'
+
+		]);
+
+		Route::post('/signle/degree',[
+			'uses' =>'Admin\DegreesController@singleDegreeProcess',
+			'as'   => 'singleDegree'
+
+		]);
+
+		Route::get('/degreedel/delete/{id}',[
+		'uses' => 'Admin\DegreesController@degreedel',
+		'as'   => 'degreedel'
+		]);
+
 		Route::get('/district/create',[
 		'uses' => 'Admin\GeneralSettingsController@createDistrict',
 		'as'   =>  'district.create'
@@ -253,6 +275,15 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		Route::get('/database/exportTxt',[
 			'uses' => 'Admin\ExportsController@dbExportTxt',
 			'as'   => 'database.export-txt'
+		]);
+
+		Route::get('/profile',[
+			'uses' => 'Admin\GeneralSettingsController@adminProfile',
+			'as'   => 'admin.profile'
+		]);
+		Route::post('/profile',[
+			'uses' => 'Admin\GeneralSettingsController@adminProfileUpdate',
+			'as'   => 'admin.profile-update'
 		]);
 
 
@@ -538,6 +569,11 @@ Route::group(['middleware' => ['XSS']], function () {
 	Route::get('/student/login',[
 			'uses' => 'Front\StudentsController@studentLogin',
 			'as'   => 'login.student'
+	]);
+
+	Route::get('/student/email-verify/{id}/{regno}',[
+			'uses' => 'Front\StudentsController@emailVerify',
+			'as'   => 'student-email-verify'
 	]);
 
 	Route::post('/login/student', [

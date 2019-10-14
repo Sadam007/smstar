@@ -191,7 +191,7 @@
                                        </div>
                                        <div class="modal-footer">
                                           <div style="margin-top: 20px !important;">
-                                             <a  href="{{route('sessiondel',['id'=>$degree->id])}}" data-id="<?php echo $degree->id;?>" class="btn btn-sm btn-outline-primary  btn-del">Yes <i class="far fa fa-check" aria-hidden="true"></i>
+                                             <a  href="{{route('degreedel',['id'=>$degree->id])}}" data-id="<?php echo $degree->id;?>" class="btn btn-sm btn-outline-primary  btn-del">Yes <i class="far fa fa-check" aria-hidden="true"></i>
                                              </a>
                                              <a type="button" class="btn btn-sm btn-outline-warning" data-dismiss="modal">Cancel <i class="fa fa-times" aria-hidden="true"></i>
                                              </a>
@@ -205,27 +205,41 @@
                                <div class="modal-dialog">
                                 <div class="modal-content">
                                  <div class="modal-header">
-                                  <h4 class="modal-title">Update Session : </h4>
+                                  <h4 class="modal-title">Update Degree : {{ $degree->Det1 }}</h4>
                                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                                </div>
 
                                <!-- Modal body -->
                                <div class="modal-body">
-                                  <form action="{{ route('sessionupdate',['id'=>$degree->id])}}" method="POST">
+                                  <form action="{{ route('degreeupdate',['id'=>$degree->id])}}" method="POST">
                                     {{ csrf_field() }}
                                  
                                      <div class="form-group">
-                                      <label for="tf1">Session Code</label>
-                                      <input type="number" name="sessionCode" class="form-control" id="tf1" aria-describedby="tf1Help" value="">
+                                      <label for="tf1">Degree Code</label>
+                                      <input type="number" name="DegCode" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{ $degree->DegCode }}">
                                     </div>
                                     <div class="form-group">
-                                      <label for="tf1">Session</label>
-                                      <input type="text" name="session" class="form-control" id="tf1" aria-describedby="tf1Help" value="">
+                                      <label for="tf1">Degree Title</label>
+                                      <input type="text" name="Det1" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{ $degree->Det1 }}">
                                     </div>
+
+                                    @php
+                                      $degYears   = $degree->degYears;
+
+                                      $selected  = "selected";
+
+                                    @endphp
+
                                     <div class="form-group">
-                                      <label for="tf1">Status</label>
-                                      <input type="number" name="status" class="form-control" id="tf1" aria-describedby="tf1Help" value="">
-                                    </div>
+                                       <label for="degYears">Degree Years</label>
+                                       <select class="custom-select" name="degYears" id="degYears" required>
+                                          <option value=""> select an option </option>
+                                         <option value="2" <?php echo ($degYears==2 ? $selected : '');?>> 2</option>
+                                         <option value="4" <?php echo ($degYears==4 ? $selected : '');?>> 4</option>
+                                         <option value="5" <?php echo ($degYears==5 ? $selected : '');?>> 5</option>
+                                       </select>
+                                     </div>
+                                    
                                     <div class="form-group">
                                       <input type="submit" class="btn btn-primary" id="tf1" aria-describedby="tf1Help" value="Update">
                                     </div>
@@ -253,6 +267,7 @@
       <p><br></p>
       <h3 class="page-title" style="font-size: 20px;margin-bottom:-20px;margin-top: 30px;margin-left: 12px;"> Relevant Links </h3>
       <nav id="nav-content" class="nav flex-column mt-4">
+         <a href="{{ route('singleDegree') }}" class="nav-link smooth-scroll">Add New Degree</a>
          <a href="#base-style" class="nav-link smooth-scroll">Add Degrees</a>
          <a href="#table-show" class="nav-link smooth-scroll">All Degrees</a>
       </nav>

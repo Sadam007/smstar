@@ -22,7 +22,7 @@
             <div id="dropdown-aside" class="dropdown-aside collapse">
               <!-- dropdown-items -->
               <div class="pb-3">
-                <a class="dropdown-item" href="user-profile.html">
+                <a class="dropdown-item" href="{{ route('admin.profile') }}">
                   <span class="dropdown-icon oi oi-person"></span> Profile</a>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                   document.getElementById('logout-form').submit();"><span class="dropdown-icon oi oi-account-logout"></span>  {{ __('Logout') }}</a>
@@ -87,7 +87,10 @@
                       <a href="{{ route('collegecsv') }}" class="menu-link">Add College</a>
                     </li>
                     <li class="menu-item">
-                      <a href="form-autocompletes.html" class="menu-link">All Colleges</a>
+                      <a href="{{ route('collegecsv') }}" class="menu-link">All Colleges</a>
+                    </li>
+                    <li class="menu-item">
+                      <a href="{{ route('degreescsv') }}" class="menu-link">Degrees in Colleges</a>
                     </li>
                   </ul>
                   <!-- /child menu -->
@@ -228,7 +231,7 @@
                   <!-- child menu -->
                   <ul class="menu">
                     <li class="menu-item">
-                      <a href="user-profile.html" class="menu-link">Profile</a>
+                      <a href="{{ route('admin.profile') }}" class="menu-link">Profile</a>
                     </li>
                 
                     <li class="menu-item"><a class="menu-link" href="{{ route('logout') }}" onclick="event.preventDefault();

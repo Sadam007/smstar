@@ -14,6 +14,7 @@ class CreateStduentCertificatesTbsTable extends Migration
     public function up()
     {
         Schema::create('stduent_certificates_tbs', function (Blueprint $table) {
+            $table->integer('certificate_id');
             $table->integer('regno');
             $table->integer('metric');
             $table->string('metricGroup');

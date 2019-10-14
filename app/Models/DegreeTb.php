@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DegreeTb extends Model
 {
     
-    protected $fillable = ['user_id','M_Title','Det1','DegCode'];
+    protected $fillable = ['user_id','M_Title','Det1','DegCode','degYears'];
 
 	public function user() {
         return $this->belongsTo('App\User');

@@ -98,11 +98,87 @@
 		font-weight: bolder;
 		font-size: 16px;
 	}
+
+	 h1#head {
+		font-size: 18px;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.counter li {
+		display: inline-block;
+		font-size: 16px;
+		list-style-type: none;
+		padding: 10px;
+		text-transform: uppercase;
+	}
+
+	.counter li span {
+		display: block;
+		font-size: 2em;
+	}
 </style>
 @endsection
 
 @section('main')
+
 <div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-12">
+			<div class="card" style="text-align: center;padding-top: 20px;">
+				@php
+					if ($sessions) {
+
+						$startDateString = str_replace('/', '-', $sessions->startDate);
+					    $date = new DateTime($startDateString);
+					    $date->format('d/m/Y');
+
+					    $endDateString = str_replace('/', '-', $sessions->endDate);
+					    $date1 = new DateTime($endDateString);
+					    $date1->format('d/m/Y');
+			
+					}
+
+					
+				@endphp
+
+				<h1 id="head">Registration will be closed on </h1>
+				
+
+				<?php
+
+				date_default_timezone_set('GMT');
+				$currentTime = date('H:i:s');
+				$currentDay = date('w');
+				$delTimeStart = '00:00:00';
+
+				$startDateString = str_replace('/', '-', $sessions->startDate);
+
+				$date = new DateTime($startDateString);
+				$date->add(new DateInterval('P10D')); // P1D means a period of 1 day
+				$Date2 = $date->format('Y-m-d');
+
+				$delTimeEnd =  $Date2;
+
+				?>
+				
+				<input type="hidden" name="hiddenEndDate" id="hiddenEndDate" value="<?php echo $delTimeEnd?>">
+			
+				
+				
+				<p>Date : {{ $delTimeEnd }} <br> <span id="countdowntimer"></span></p>
+		
+				<!-- <div data-countdown="2019/09/30"></div>
+				
+				<div id="countdowntimer"></div> -->
+				
+		
+			</div>
+		</div>
+	</div>
+	
+	<div class="spacer"></div>
+
 	<div class="row justify-content-center">
 		<div class="col-md-12">
 			<div class="card">
@@ -118,7 +194,7 @@
 				<div class="card-header">
 					<span style="font-size: 18px; font-weight: bold;">Students Sign Up Form</span> <i class="fa fa-user-alt fa-lg float-right"></i>
 				</div>
-				<div class="card-body">
+				<div class="card-body">	
 
 
 					<form id="form-1" method="post">
@@ -142,7 +218,7 @@
 								@endif
 							</select>
 						</div>
-						<div class="form-group">
+						{{-- <div class="form-group">
 							<label>Session</label>	 
 							<select name="stdSession" class="form-control department" id="stdSession" required="">
 								<option value=""></option>
@@ -155,7 +231,7 @@
 								@endforeach
 								@endif
 							</select>
-						</div>
+						</div> --}}
 						<div class="form-group">
 							<label>Degree</label>		
 							<select name="stdDegree" class="form-control department" id="stdDegree" required="">
@@ -446,6 +522,7 @@
 <script src="{{asset('js/select2.min.js')}}"></script>
 <script src="{{asset('backend/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('backend/js/jquery.datetimepicker.full.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 @include('validations.stdValidation')
 @endsection
 @section('custom-js')
@@ -460,5 +537,24 @@
 	@endif    
 
 	
+	// $('[data-countdown]').each(function() {
+	// 	var $this = $(this), finalDate = $(this).data('countdown');
+	// 	$this.countdown(finalDate, function(event) {
+	// 		$this.html(event.strftime('%D days %H:%M:%S'));
+	// 	});
+	// });
+
+	var hiddenEndDate  = document.getElementById("hiddenEndDate").value;
+
+	$("#countdowntimer")
+	.countdown(hiddenEndDate, function(event) {
+		$(this).html(
+			event.strftime('<ul class="counter"> <li>%D days</li> <li>%H Hours</li> <li>%M Minutes</li> <li>%S Seconds</li> are remaining')
+		);
+	});
+
+
+
+	 
 </script>
 @endsection

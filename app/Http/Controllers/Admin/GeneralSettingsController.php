@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Models\DistrictTb;
 use App\Models\CertificateTb;
+use App\User;
 use Auth;
 use DB;
 use Session;
@@ -134,5 +136,49 @@ class GeneralSettingsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function adminProfile(){
+
+        $adminId  = Auth::id();
+
+        $admin  = User::find($adminId);
+
+        return view('backend.admin-profile')->with('admin',$admin);
+    }
+
+    public function adminProfileUpdate(Request $request){
+
+    
+        $adminName         = $request->adminName;
+        $adminEmail        = $request->adminEmail;
+        $adminPassword     = $request->adminPassword;
+        $adminNewPassword  = $request->adminNewPassword;
+
+        $adminId  = Auth::id();
+
+        $admin    = User::find($adminId);
+        $oldPass   = $admin->password;
+
+        if (Hash::check($request->adminPassword, $admin->password)) { 
+           $admin->fill([
+
+            'password' => Hash::make($request->adminNewPassword)
+            ])->save();
+
+        $arr = array(['Good' => true,'message' => 'Profile Updated Successfully'], 200);
+        echo json_encode($arr);
+
+        }
+        else{
+
+            $arr = array(['Good' => true,'message' => 'Current Password is not matched'], 200);
+                echo json_encode($arr);
+        }
+
+
+
+
+        
     }
 }

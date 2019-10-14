@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyMail;
 use App\Http\Requests\StudentsStoreRequest;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -19,6 +21,7 @@ use App\Models\RollNoTb;
 use DB;
 use Session;
 use Auth;
+use PDF;
 class StudentsController extends Controller
 {
     /**
@@ -39,12 +42,16 @@ class StudentsController extends Controller
     public function create()
     {
         $colleges      =  CollegeTb::orderBy('id', 'ASC')->get();
-        $sessions      =  SessionTb::orderBy('id', 'ASC')->get();
+        $sessions      =  SessionTb::orderBy('id', 'DESC')->where('status',1)->first();
         $degrees       =  DegreeTb::orderBy('id', 'ASC')->get();
         $districts     =  DistrictTb::orderBy('id', 'ASC')->get();
         $certificates  =  CertificateTb::orderBy('id', 'ASC')->get();
 
-        return view('front.students.create')->with(['colleges' => $colleges , 'sessions' => $sessions, 'degrees' => $degrees,'districts' => $districts, 'certificates' => $certificates]);
+        $sessions = SessionTb::where('status', '=', 1)
+        ->orderBy('id', 'DESC')
+        ->first();
+
+        return view('front.students.std-create')->with(['colleges' => $colleges , 'sessions' => $sessions, 'degrees' => $degrees,'districts' => $districts, 'certificates' => $certificates]);
     }
 
     public function studentLogin(){
@@ -52,6 +59,8 @@ class StudentsController extends Controller
     }
 
 public function registerStudents(StudentsStoreRequest $request){
+
+       // dd($request->all());
 
         $validated = $request->validated();
         $stdDepartment   = $request->stdDepartment;
@@ -62,7 +71,6 @@ public function registerStudents(StudentsStoreRequest $request){
         $stdfName        = $request->stdfName;
         $stddob          = $request->stddob;
         $stdDomicile     = $request->stdDomicile;
-        $stdPhoto        = $request->stdPhoto;
         $stdAddress      = $request->stdAddress;
 
         $metricSelect    = $request->metricSelect;
@@ -93,7 +101,15 @@ public function registerStudents(StudentsStoreRequest $request){
         $bscBoard        = $request->bscBoard;
         $stdEmail        = $request->stdEmail;
         $stdContact      = $request->stdContact;
-        //dd($request->all());
+
+        $destinationPath = 'uploads/students/';
+
+        $file = $request->file('stdPhoto');
+
+        $featured_new_name = time().$file->getClientOriginalName();
+        $file->move($destinationPath,$featured_new_name);
+
+        $stdPhoto = $destinationPath.$featured_new_name;
 
         //$registration = DB::select("SELECT regno FROM `student_tbs` WHERE degree_id='$stdDegree' AND department_id='$stdDepartment' AND session_id='$stdSession'");
 
@@ -135,7 +151,7 @@ public function registerStudents(StudentsStoreRequest $request){
            $create = StudentTb::create([
             'regno' => $regnoo,
             'department_id'  => $stdDepartment,
-            'session_id'     => $sessionId,
+            'session_id'     => $stdSession,
             'degree_id'      => $stdDegree,
             'stdName'        => $stdName,
             'stdfName'       => $stdfName,
@@ -147,7 +163,9 @@ public function registerStudents(StudentsStoreRequest $request){
             'contact'        => $stdContact,
             'password'       => bcrypt("12121212"),
         ]);
-        $last_id = $create->id;
+
+        $last_id = $create->student_id;
+        $regno = $create->regno;
         $certificates = StduentCertificatesTb::create([
                 'regno' => $regnoo, 
                 'metric'=> $metricSelect,
@@ -176,7 +194,24 @@ public function registerStudents(StudentsStoreRequest $request){
                 'bscBoard'=>$bscBoard,
            ]);
             if ($certificates) {
-                $arr = array(['Good' => true,'message' => 'Account Registered Scuccessfully.'], 200);
+
+              $data=   array(
+                  'name'=>$request->stdName,
+                  'user_email'=>$request->stdEmail,
+                  'regno'=>$regno,
+                  'student_id'=>$last_id,
+                  'subject'=>"Email Confirmation"
+              );
+
+              Mail::send('front.students.email-verifiy', array('data' => $data), function($message) use($data)
+              {
+                  $message->from('sadam.uom7@gmail.com', 'Secrecy UOM.');
+                  $message->to($data['user_email']);
+                  $message->subject($data['subject']);
+              });
+
+
+                $arr = array(['Good' => true,'message' => 'Account Registered Scuccessfully.Please check your email for further action.'], 200);
                 echo json_encode($arr);
             }
         
@@ -187,7 +222,7 @@ public function registerStudents(StudentsStoreRequest $request){
             $create = StudentTb::create([
             'regno' => $regnoo,
             'department_id'  => $stdDepartment,
-            'session_id'     => $sessionId,
+            'session_id'     => $stdSession,
             'degree_id'      => $stdDegree,
             'stdName'        => $stdName,
             'stdfName'       => $stdfName,
@@ -199,6 +234,8 @@ public function registerStudents(StudentsStoreRequest $request){
             'contact'        => $stdContact,
             'password'       => bcrypt("12121212"),
         ]);
+
+            // \Mail::to($create->email)->send(new VerifyMail($create));
 
            $last_id = $create->id;
 
@@ -230,7 +267,23 @@ public function registerStudents(StudentsStoreRequest $request){
                 'bscBoard'=>$bscBoard,
            ]);
             if ($certificates) {
-                $arr = array(['Good' => true,'message' => 'Account Registered Scuccessfully.'], 200);
+
+                $data=   array(
+                  'name'=>$request->stdName,
+                  'user_email'=>$request->stdEmail,
+                  'regno'=>$regnoo,
+                  'student_id'=>$last_id,
+                  'subject'=>"Email Confirmation"
+              );
+
+              Mail::send('front.students.email-verifiy', array('data' => $data), function($message) use($data)
+              {
+                  $message->from('sadam.uom7@gmail.com', 'Secrecy UOM.');
+                  $message->to($data['user_email']);
+                  $message->subject($data['subject']);
+              });
+
+                $arr = array(['Good' => true,'message' => 'Account Registered Scuccessfully.Please check your email for further action.'], 200);
                 echo json_encode($arr);
             }
         }    
@@ -491,6 +544,76 @@ public function registerStudents(StudentsStoreRequest $request){
 
     public function ViewStudentApplyForRechecking(){
         return "STudent Apply For Rechecking CODE GOES HERE";
+    }
+
+     public function emailVerify($id,$regno){
+    
+       $forms        = DB::table('student_tbs')
+                        ->join('stduent_certificates_tbs', 'stduent_certificates_tbs.regno', '=', 'student_tbs.regno')
+                        ->join('district_tbs','district_tbs.id','=','student_tbs.domicile')
+                        ->join('college_tbs','college_tbs.college_id','=','student_tbs.department_id')
+                        ->join('session_tbs','session_tbs.id','student_tbs.session_id')
+                        ->join('degree_tbs','degree_tbs.DegCode','=','student_tbs.degree_id')
+                        ->select('student_tbs.*','stduent_certificates_tbs.*','district_tbs.name AS dom','college_tbs.name AS collegeName','session_tbs.session','degree_tbs.Det1')
+                        ->where(['student_tbs.student_id'=>$id,'student_tbs.regno'=>$regno])
+                        ->get();
+                  
+      $regno = $forms[0]->regno;                  
+      $stdName = $forms[0]->stdName;                  
+      $email = $forms[0]->email;                  
+
+      $modifyDet1 =  str_replace(" ", "-", $regno);
+      $filename   = $modifyDet1;                   
+
+      $pdf = PDF::loadView('front.students.email-form', compact('forms','forms')); 
+      $pdf->setPaper('A4', 'portrait');       
+      $output = $pdf->output($filename);
+
+      $pdfFile = $regno."-RegistrationForm.pdf";
+      
+      $path = file_put_contents($pdfFile, $output);
+
+      $deleteForm = public_path($pdfFile);
+
+      $data=   array(
+                  'name'=>$stdName,
+                  'user_email'=>$email,
+                  'regno'=>$regno,
+                  'subject'=>"Email Confirmation",
+                  'email_body'=>"<span>Please contact with the relevant clerk in order to activate your account.</span>",
+                  'attachment'=>$deleteForm
+              );
+              try{
+                Mail::send([], array('data' => $data), function($message) use($data)
+                              {
+                                  $message->from('sadam.uom7@gmail.com', 'Secrecy UOM.');
+                                  $message->to($data['user_email']);
+                                  $message->subject($data['subject']);
+                                  $message->setBody($data['email_body'], 'text/html');
+                                  $message->attach($data['attachment']);
+                              });
+
+              }
+              catch(JWTException $exception){
+                  $this->serverstatuscode = "0";
+                  $this->serverstatusdes = $exception->getMessage();
+              }
+
+              if (Mail::failures())
+                {
+                  $this->statusdesc  =   "Error sending mail";
+                  $this->statuscode  =   "0";
+
+              }else{
+                $verify = StudentTb::where(['student_id' =>$id,'regno'=>$regno])->findOrFail($id);
+                $verify->is_email = 1;
+                $verify = $verify->save();
+
+                 Session::flash('emailConfirm' , 'Email Confirmed. Please check your email for further action.');
+                  unlink($deleteForm);
+                  return redirect()->route('homepage');
+              }
+              return response()->json(compact('this'));
     }
     
 }

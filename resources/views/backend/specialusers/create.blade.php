@@ -292,6 +292,7 @@ span.select2-selection.select2-selection--single {
          <a href="{{ route('collegecsv') }}" class="nav-link smooth-scroll">Add Colleges</a>
          <a href="{{ route('collegecsv') }}" class="nav-link smooth-scroll">All Colleges</a>
          <a href="{{ route('specialusers.create') }}" class="nav-link smooth-scroll">College Users</a>
+         <a href="{{ route('degreescsv') }}" class="nav-link smooth-scroll">Degrees in Colleges</a>
       </nav>
    </div>
 </div>

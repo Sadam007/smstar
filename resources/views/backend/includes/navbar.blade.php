@@ -296,7 +296,7 @@
                   <img  src="{{asset('backend/images/avatars/profile.jpg')}}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ ucwords(Auth::user()->name) }}</span> <span class="account-description">Administrator</span></span></button>
               <div class="dropdown-arrow dropdown-arrow-left"></div><!-- .dropdown-menu -->
               <div class="dropdown-menu">
-                <h6 class="dropdown-header d-none d-md-block d-lg-none"> Beni Arisandi </h6><a class="dropdown-item" href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> Profile</a> 
+                <h6 class="dropdown-header d-none d-md-block d-lg-none"> Beni Arisandi </h6><a class="dropdown-item" href="{{ route('admin.profile') }}"><span class="dropdown-icon oi oi-person"></span> Profile</a> 
 
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                   document.getElementById('logout-form').submit();"><span class="dropdown-icon oi oi-account-logout"></span>  {{ __('Logout') }}</a>
