@@ -173,9 +173,7 @@
 					stdDepartment: {
 						required: true,
 					},
-					stdSession: {
-						required: true,
-					},
+					
 					stdDegree:{
 						required:true,
 					},
@@ -430,9 +428,8 @@
 
 					// Form 1 values
 					var stdDepartment  = $('#stdDepartment').val();
-					var stdSession     = $('#stdSession').val();
 
-					var sessionId     = $('#sessionId').val();
+
 					var stdDegree      = $('#stdDegree').val();
 					// Form 2 values
 					var stdName        = $('#stdName').val();
@@ -475,8 +472,8 @@
 
 					var data = new FormData();
 					data.set('stdDepartment', stdDepartment);
-					data.set('stdSession', stdSession);
-					data.set('sessionId', sessionId);
+					
+				
 					data.set('stdDegree', stdDegree);
 					data.set('stdName', stdName);
 					data.set('stdfName', stdfName);

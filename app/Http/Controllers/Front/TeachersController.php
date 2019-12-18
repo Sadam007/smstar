@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Models\CollegeTb;
 use App\Models\RollNoComDet;
 use App\TeacherTb;
@@ -146,6 +147,61 @@ class TeachersController extends Controller
         echo json_encode($arr);      
       }
 
+    }
+
+    /*
+     * Teacher Profile.
+     */
+
+
+    public function teacherProfile(){
+
+
+
+      $teacherId  = Auth('teacher')->user()->id;
+
+      $teacher  = TeacherTb::find($teacherId);
+
+      return view('front.teachers.profile')->with('teacher',$teacher);
+    }
+
+    /*
+     * Teacher Profile Processs.
+     */
+
+    public function teacherProfileUpdate(Request $request){
+
+    
+        $teacherName         = $request->teacherName;
+        $teacherMobile        = $request->teacherMobile;
+        $teacherPassword     = $request->teacherPassword;
+        $teacherNewPassword  = $request->teacherNewPassword;
+
+        $teacherId  = Auth('teacher')->user()->id;
+
+        $teacher    = TeacherTb::find($teacherId);
+        $oldPass   = $teacher->password;
+
+        if (Hash::check($request->teacherPassword, $teacher->password)) { 
+           $teacher->fill([
+
+            'password' => Hash::make($request->teacherNewPassword)
+            ])->save();
+
+        $arr = array(['Good' => true,'message' => 'Profile Updated Successfully'], 200);
+        echo json_encode($arr);
+
+        }
+        else{
+
+            $arr = array(['Good' => true,'message' => 'Current Password is not matched'], 200);
+                echo json_encode($arr);
+        }
+
+
+
+
+        
     }
 
     /*

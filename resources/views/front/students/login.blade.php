@@ -75,6 +75,7 @@
 							<button type="submit" id="BtnStudentSignIn" class="btn btn-primary">
 								Login
 							</button>
+						Don't have an account? <a href="{{ route('student.create') }}" style="text-decoration: none;">Create One</a>
 
 						</div>
 					</form>

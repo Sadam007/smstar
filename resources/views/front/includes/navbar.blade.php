@@ -9,6 +9,10 @@
       <li class="nav-item active">
         <a class="nav-link" href="{{ route('homepage') }}">Home <span class="sr-only">(current)</span></a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('users') }}">Users <span class="sr-only">(current)</span></a>
+      </li>
       <!-- <li class="nav-item">
         <a class="nav-link" href="{{ route('teacher.create') }}" tabindex="-1">Teachers Registration</a>
       </li>
@@ -25,7 +29,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('clerk.login') }}">Clerk Login</a>
       </li> -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           College Menu
         </a>
@@ -39,24 +43,25 @@
           <a class="dropdown-item" href="{{ route('clerk.login') }}">Clerk Login</a>
           
         </div>
-      </li>
-      <li class="nav-item dropdown">
+      </li> -->
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Exams Links
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ route('secrecyuser.login') }}">Secrecy Login</a>
         </div>
-      </li>
-      <li class="nav-item dropdown">
+      </li> -->
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
+      </li>   -->
         {{-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ route('login') }}">Login</a>
         <a class="dropdown-item" href="{{ route('register') }}">Register</a>
         </div> --}}
-        <li class="nav-item active">
+        <li class="nav-item">
         <a class="nav-link" href="{{ route('login') }}">Admin Login</a>
       </li>
       </li>

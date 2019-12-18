@@ -16,7 +16,7 @@ class CreateTeacherExamCenterAssignmentTbsTable extends Migration
         Schema::create('teacher_exam_center_assignment_tbs', function (Blueprint $table) {
             $table->increments('teach_center_id');
             $table->integer('examcode');
-            $table->integer('subcode');
+            $table->string('subcode');
             $table->integer('ccode');
             $table->integer('examiner_id');
             $table->integer('sec_user_id');

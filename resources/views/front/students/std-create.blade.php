@@ -99,7 +99,7 @@
 		font-size: 16px;
 	}
 
-	 h1#head {
+	 h1#head,h1.head{
 		font-size: 18px;
 		font-weight: bold;
 		text-align: center;
@@ -121,38 +121,55 @@
 @endsection
 @section('main')
 
+
+@php
+
+	date_default_timezone_set("Asia/Karachi");
+
+	$endDateString = str_replace('/', '-', $sessions->endDate);
+
+	$date = new DateTime($endDateString);
+	
+	$delTimeEnd = $date->format('Y-m-d');
+
+	$currentDate = date('Y-m-d');
+
+@endphp
+
 <div class="container">
-	<div class="row justify-content-center">
-		<div class="col-md-12">
-			<div class="card" style="text-align: center;padding-top: 20px;">
 
-				<h1 id="head">Last Date For Registration</h1>
+	@if($currentDate < $delTimeEnd )
+		<div class="row justify-content-center">
+			<div class="col-md-12">
+				<div class="card finishTimer" style="text-align: center;padding-top: 20px;">
+
+					<h1 id="head">Last Date For Registration</h1>
+					
+					
+					<input type="hidden" name="hiddenEndDate" id="hiddenEndDate" value="<?php echo $delTimeEnd?>">
 				
-				@php
+					<p>Date : {{ $delTimeEnd }} <br> <span id="countdowntimer"></span></p>
 
-					date_default_timezone_set('GMT');
-					$currentTime = date('H:i:s');
-					$currentDay = date('w');
-					$delTimeStart = '00:00:00';
-
-					$startDateString = str_replace('/', '-', $sessions->startDate);
-
-					$date = new DateTime($startDateString);
-					$date->add(new DateInterval('P10D')); // P1D means a period of 1 day
-					$Date2 = $date->format('Y-m-d');
-
-					$delTimeEnd =  $Date2;
-
-				@endphp
-				<input type="hidden" name="hiddenEndDate" id="hiddenEndDate" value="<?php echo $delTimeEnd?>">
-			
-				<p>Date : {{ $delTimeEnd }} <br> <span id="countdowntimer"></span></p>
-
+				</div>
 			</div>
 		</div>
-	</div>
 	
+		@else
+			
+		<div class="row justify-content-center">
+			<div class="col-md-12">
+				<div class="card finishTimer" style="text-align: center;padding-top: 20px;">
+
+					<h1 class="head">Registration is closed for the current session.</h1>
+					<p class="err">Please Contact with relevant clerk of your department / College for further action.</p>
+				</div>
+			</div>
+		</div>
+
+	@endif
 	<div class="spacer"></div>
+
+	@if($currentDate < $delTimeEnd )
 	
 	<div class="row justify-content-center">
 		<div class="col-md-12">
@@ -166,14 +183,6 @@
 				        </ul>
 				    </div>
 				@endif
-
-				@php
-					date_default_timezone_set('Asia/Karachi');
-					$currentTime = new DateTime();
-    				$currentTime->format('Y-m-d H:i:s');
-    				
-
-				@endphp
 
 			<div class="card-header">
 					<span style="font-size: 18px; font-weight: bold;">Students Sign Up Form</span> <i class="fa fa-user-alt fa-lg float-right"></i>
@@ -206,7 +215,7 @@
 
 
 						 
-						<input type="hidden" name="stdSession" id="stdSession" value="{{ $sessions->id }}">
+						{{-- <input type="hidden" name="stdSession" id="stdSession" value="{{ $sessions->id }}"> --}}
 	
 							
 						<div class="form-group">
@@ -484,6 +493,7 @@
 
 		
 	</div>
+	@endif
 </div>
 <div class="clearfix"></div>
 <div class="mg-top">&nbsp;</div>
@@ -512,13 +522,6 @@
 	toastr.error("{{Session::get('warning')}}")
 	@endif    
 
-	
-	// $('[data-countdown]').each(function() {
-	// 	var $this = $(this), finalDate = $(this).data('countdown');
-	// 	$this.countdown(finalDate, function(event) {
-	// 		$this.html(event.strftime('%D days %H:%M:%S'));
-	// 	});
-	// });
 
 	var hiddenEndDate  = document.getElementById("hiddenEndDate").value;
 
@@ -527,7 +530,10 @@
 		$(this).html(
 			event.strftime('<ul class="counter"> <li>%D days</li> <li>%H Hours</li> <li>%M Minutes</li> <li>%S Seconds</li> are remaining')
 		);
+		// finishTimer
 	});
+
+
 
 
 

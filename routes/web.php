@@ -5,7 +5,12 @@ Route::group(['middleware' => ['XSS']], function () {
 		Route::get('/', [
 		'uses' =>'Front\HomeController@index',
 		'as'   => 'homepage'
-		])->middleware(['XSS']);
+		]);
+		Route::get('/users',[
+		'uses' =>'Front\HomeController@users',
+		'as'   => 'users',
+		]);
+
 });
 
 /*
@@ -332,6 +337,41 @@ Route::group([ 'prefix'=>'secrecy','middleware'=>['auth:secrecyuser', 'disablepr
 			'as'    =>  'examcenter.assignment'
 		]);
 
+		Route::get('/exams', [
+			'uses'	=> 'Admin\SecrecyUsersController@LatestExams',
+			'as'		=> 'secrecy.exams'
+		]);
+
+		Route::post('/exams/degres',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsdegrees',
+			'as'		=> 'exam.degrees'
+		]);
+
+		Route::post('/exams/degres/subjects',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsdegreesSubjects',
+			'as'		=> 'exam.degrees-subjects'
+		]);
+
+		Route::post('/exams/degres/subjects/college',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsdegreesSubjectColleges',
+			'as'		=> 'exam.degrees-subjects-colleges'
+		]);
+
+		Route::post('/exams/degres/subjects/college/assignment',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsdegreesSubjectCollegesAssignment',
+			'as'		=> 'exam.degrees-subjects-colleges-assignment'
+		]);
+
+		Route::post('/exams/search/teacher',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsSearchTeacher',
+			'as'		=> 'exam.search-teacher'
+		]);
+
+		Route::post('/exams/search/teacher/assignment',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsSearchTeacherAssignment',
+			'as'		=> 'exam.search-teacher-assignment'
+		]);
+
 		Route::post('/logout',[
 				'uses' => 'Admin\SecrecyUsersController@logout',
 				'as'   => 'secrecyuser.logout'
@@ -546,6 +586,15 @@ Route::group([ 'prefix'=>'teacher','middleware'=>'auth:teacher','XSS'], function
 			'uses'  => 'Front\TeachersController@subjectfortyprocess',
 			'as'    => 'subject.fortyprocess'
 
+		]);
+
+		Route::get('/profile',[
+			'uses' => 'Front\TeachersController@teacherProfile',
+			'as'   => 'teacher.profile'
+		]);
+		Route::post('/profile',[
+			'uses' => 'Front\TeachersController@teacherProfileUpdate',
+			'as'   => 'teacher.profile-update'
 		]);
 	
 });

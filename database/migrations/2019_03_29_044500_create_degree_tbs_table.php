@@ -18,7 +18,7 @@ class CreateDegreeTbsTable extends Migration
             $table->integer('user_id');
             $table->string('M_Title');
             $table->string('Det1');
-            $table->mediumInteger('DegCode');
+            $table->integer('DegCode');
             $table->timestamps();
         });
     }

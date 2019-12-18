@@ -8,13 +8,16 @@ use App\Http\Controllers\Controller;
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Main Page.
      */
     public function index()
     {
         return view('front.index');
+    }
+
+    public function users()
+    {
+        return view('front.users');
     }
 
     /**

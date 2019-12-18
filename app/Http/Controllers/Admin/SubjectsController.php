@@ -94,6 +94,8 @@ class SubjectsController extends Controller
                     $hours     = $importData[4];
                     $Pmarks    = $importData[5];
                     $sname2    = $importData[6];
+                    $degree_id    = $importData[7];
+                    $semester_id    = $importData[8];
 
                     
                     $create = SubjectTb::create([
@@ -105,6 +107,8 @@ class SubjectsController extends Controller
                                 "hours" => $hours,
                                 "Pmarks" => $Pmarks,
                                 "sname2" => $sname2,
+                                "degree_id" => $degree_id,
+                                "semester_id" => $semester_id,
                     ]);
                 }
                 if ($create) { 

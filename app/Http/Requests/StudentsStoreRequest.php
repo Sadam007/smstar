@@ -25,7 +25,6 @@ class StudentsStoreRequest extends FormRequest
     {
         return [
             'stdDepartment'   => 'required',
-            'stdSession'      => 'required',
             'stdDegree'       => 'required',
             'stdName'         => 'required|min:3',
             'stdfName'        => 'required|min:3',
