@@ -22,7 +22,7 @@
             <div id="dropdown-aside" class="dropdown-aside collapse">
               <!-- dropdown-items -->
               <div class="pb-3">
-                <a class="dropdown-item" href="user-profile.html">
+                <a class="dropdown-item" href="{{ route('student.profile') }}">
                   <span class="dropdown-icon oi oi-person"></span> Profile</a>
                 <a class="dropdown-item" href="{{ route('student.logout') }}">
                   <span class="dropdown-icon oi oi-account-logout"></span> Logout</a>

@@ -372,6 +372,17 @@ Route::group([ 'prefix'=>'secrecy','middleware'=>['auth:secrecyuser', 'disablepr
 			'as'		=> 'exam.search-teacher-assignment'
 		]);
 
+
+		Route::get('/profile',[
+			'uses'	=> 'Admin\SecrecyUsersController@secrecyProfile',
+			'as' 		=> 'secrecyuser.profile'
+		]);
+
+		Route::post('/profile',[
+			'uses'	=> 'Admin\SecrecyUsersController@secrecyProfileUpdate',
+			'as' 		=> 'secrecyuser.profile-update'
+		]);
+
 		Route::post('/logout',[
 				'uses' => 'Admin\SecrecyUsersController@logout',
 				'as'   => 'secrecyuser.logout'
@@ -669,6 +680,16 @@ Route::group([ 'prefix'=>'student','middleware'=>['auth:student','protectStudent
 		Route::get('/apply/rechecking',[
 			'uses'  =>'Front\StudentsController@ViewStudentApplyForRechecking',
 			'as'    => 'student.apply-Rechecking',
+		]);
+
+		Route::get('/profile',[
+			'uses' => 'Front\StudentsController@studentProfile',
+			'as'   => 'student.profile'
+		]);
+
+		Route::post('/profile',[
+			'uses' => 'Front\StudentsController@studentProfileUpdate',
+			'as'   => 'student.profile-update'
 		]);
 
 

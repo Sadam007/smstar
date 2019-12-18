@@ -31,7 +31,7 @@
             </button>
             <div class="dropdown-arrow dropdown-arrow-left"></div><!-- .dropdown-menu -->
             <div class="dropdown-menu">
-              <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ strtoupper(Auth('student')->user()->stdName) }} </h6><a class="dropdown-item" href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> Profile</a>
+              <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ strtoupper(Auth('student')->user()->stdName) }} </h6><a class="dropdown-item" href="{{ route('student.profile') }}"><span class="dropdown-icon oi oi-person"></span> Profile</a>
               <a class="dropdown-item" href="{{ route('student.logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();"><span class="dropdown-icon oi oi-account-logout"></span>  {{ __('Logout') }}</a>
                 <form id="logout-form" action="{{ route('student.logout') }}" method="POST" style="display: none;">

@@ -10,12 +10,12 @@
       </span>
       <span class="account-summary">
         <span class="account-name">{{ strtoupper(Auth('secrecyuser')->user()->username)  }}</span>
-        <span class="account-description">Administrator</span>
+        <span class="account-description">Secrecy Staff</span>
       </span>
       </button>
       <div id="dropdown-aside" class="dropdown-aside collapse">
         <div class="pb-3">
-          <a class="dropdown-item" href="user-profile.html">
+          <a class="dropdown-item" href="{{ route('secrecyuser.profile') }}">
             <span class="dropdown-icon oi oi-person"></span> Profile</a>
             <a class="dropdown-item" href="{{ route('secrecyuser.logout') }}">
               <span class="dropdown-icon oi oi-account-logout"></span> Logout</a>

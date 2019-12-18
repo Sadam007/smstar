@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\SecrecyTb;
 use App\Models\DegreeTb;
@@ -573,5 +574,46 @@ class SecrecyUsersController extends Controller
         $arr = array(['Good' => false,'message' => 'Paper already assigned'], 200);
         echo json_encode($arr);
     }
+  }
+
+
+  public function secrecyProfile()
+  {
+      $secUserId  = Auth('secrecyuser')->user()->sec_user_id;
+
+      $secuser    = SecrecyTb::find($secUserId);
+
+      return view('front.secrecyusers.profile')->with('secuser',$secuser);
+
+  }
+
+  public function secrecyProfileUpdate(Request $request)
+  {
+
+        $secuserName         = $request->secuserName;
+        $secuserPassword     = $request->secuserPassword;
+        $secuserNewPassword  = $request->secuserNewPassword;
+
+        $secUserId  = Auth('secrecyuser')->user()->sec_user_id;
+
+        $secuser    = SecrecyTb::find($secUserId);
+        $oldPass   = $secuser->password;
+
+        if (Hash::check($request->secuserPassword, $secuser->password)) { 
+           $secuser->fill([
+
+            'password' => Hash::make($request->secuserNewPassword)
+            ])->save();
+
+        $arr = array(['Good' => true,'message' => 'Profile Updated Successfully'], 200);
+        echo json_encode($arr);
+
+        }
+        else{
+
+            $arr = array(['Good' => true,'message' => 'Current Password is not matched'], 200);
+                echo json_encode($arr);
+        }
+
   }
 }

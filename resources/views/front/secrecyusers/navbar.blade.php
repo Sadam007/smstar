@@ -97,11 +97,11 @@
         <div class="dropdown">
           <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md">
             <img src="{{ asset("backend/images/avatars/profile.jpg") }}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">
-            {{ strtoupper(Auth('secrecyuser')->user()->username)  }}</span> <span class="account-description">Administrator</span></span>
+            {{ strtoupper(Auth('secrecyuser')->user()->username)  }}</span> <span class="account-description">Secrecy Staff</span></span>
           </button>
           <div class="dropdown-arrow dropdown-arrow-left"></div>
           <div class="dropdown-menu">
-            <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ strtoupper(Auth('secrecyuser')->user()->username)  }} </h6><a class="dropdown-item" href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> Profile</a>
+            <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ strtoupper(Auth('secrecyuser')->user()->username)  }} </h6><a class="dropdown-item" href="{{ route('secrecyuser.profile') }}"><span class="dropdown-icon oi oi-person"></span> Profile</a>
             <a class="dropdown-item" href="{{ route('secrecyuser.logout') }}" onclick="event.preventDefault();
               document.getElementById('logout-form').submit();"><span class="dropdown-icon oi oi-account-logout"></span>  {{ __('Logout') }}</a>
               <form id="logout-form" action="{{ route('secrecyuser.logout') }}" method="POST" style="display: none;">

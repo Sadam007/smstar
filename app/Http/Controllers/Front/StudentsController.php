@@ -8,6 +8,7 @@ use App\Mail\VerifyMail;
 use App\Http\Requests\StudentsStoreRequest;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Models\StudentTb;
 use App\Models\StduentCertificatesTb;
 use App\Models\CollegeTb;
@@ -551,5 +552,51 @@ class StudentsController extends Controller
       }
       return response()->json(compact('this'));
     }
+
+
+    public function studentProfile(){
+
+      $student_id  = Auth('student')->user()->student_id;
+
+      $student  = StudentTb::find($student_id);
+
+
+      return view('front.students.profile')->with('student',$student);
+    }
+
+    public function studentProfileUpdate(Request $request){
+
+
+        $studentName         = $request->studentName;
+        $studentMobile       = $request->studentMobile;
+        $studentPassword     = $request->studentPassword;
+        $studentNewPassword  = $request->studentNewPassword;
+
+       
+
+        $student_id  = Auth('student')->user()->student_id;
+
+        $student  = StudentTb::find($student_id);
+
+        $oldPass   = $student->password;
+
+        if (Hash::check($request->studentPassword, $student->password)) { 
+           $student->fill([
+
+            'password' => Hash::make($request->studentNewPassword)
+            ])->save();
+
+        $arr = array(['Good' => true,'message' => 'Profile Updated Successfully'], 200);
+        echo json_encode($arr);
+
+        }
+        else{
+
+            $arr = array(['Good' => true,'message' => 'Current Password is not matched'], 200);
+                echo json_encode($arr);
+        }
+    }
+
+
     
   }
