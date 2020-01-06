@@ -13,7 +13,7 @@
 
 @section('main')
 
-        @include('front.degadmins.components.header-component')
+        
 
         
 

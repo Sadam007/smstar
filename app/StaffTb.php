@@ -15,9 +15,9 @@ class StaffTb extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function user() {
+    /*public function user() {
         return $this->belongsTo('App\User');
-    }
+    }*/
 
     public function collegestaff() {
         return $this->belongsTo('App\Models\SpecialUserTb');

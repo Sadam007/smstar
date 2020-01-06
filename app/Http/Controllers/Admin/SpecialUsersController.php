@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Models\CollegeTb;
 use App\Models\SpecialUserTb;
 use App\TeacherTb;
@@ -236,5 +237,46 @@ class SpecialUsersController extends Controller
         else{
              return redirect()->back();
         }
+    }
+
+
+    public function specialuserProfile(){
+
+        $user_id = Auth::user()->id;
+
+        $colAdmin    = SpecialUserTb::find($user_id);
+
+        return view('front.specialusers.profile')->with('colAdmin',$colAdmin);
+
+    }
+
+    public function specialuserProfileUpdate(Request $request){
+
+
+        $specialuserName         = $request->specialuserName;
+        $specialuserPassword     = $request->specialuserPassword;
+        $specialuserNewPassword  = $request->specialuserNewPassword;
+
+        $user_id = Auth::user()->id;
+
+        $specialuser    = SpecialUserTb::find($user_id);
+        $oldPass   = $specialuser->password;
+
+        if (Hash::check($request->specialuserPassword, $specialuser->password)) { 
+           $specialuser->fill([
+
+            'password' => Hash::make($request->specialuserNewPassword)
+            ])->save();
+
+        $arr = array(['Good' => true,'message' => 'Profile Updated Successfully'], 200);
+        echo json_encode($arr);
+
+        }
+        else{
+
+            $arr = array(['Good' => true,'message' => 'Current Password is not matched'], 200);
+                echo json_encode($arr);
+        }
+
     }
 }

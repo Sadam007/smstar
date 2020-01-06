@@ -292,15 +292,15 @@ class SecrecyUsersController extends Controller
 
       $examcode   =  $request->examcode;
 
-      $degrees = DB::table('student_tbs')
-      ->join('roll_no_tbs', 'roll_no_tbs.regno', '=', 'student_tbs.regno')
-      ->join('degree_tbs','degree_tbs.DegCode','student_tbs.degree_id')
-      ->select('roll_no_tbs.rollno','roll_no_tbs.examcode','student_tbs.degree_id','degree_tbs.id','degree_tbs.M_Title','degree_tbs.Det1','degree_tbs.DegCode')
-      ->where('roll_no_tbs.examcode','=',$examcode)
-      ->distinct('degree_tbs.Det1')
-      ->groupBy('degree_tbs.DegCode')
-      ->orderBy('degree_tbs.Det1','ASC')
-      ->get(); 
+      $degrees    =  DB::table('student_tbs')
+                        ->join('degree_tbs','degree_tbs.DegCode','=','student_tbs.degree_id')
+                        ->join('roll_no_tbs','roll_no_tbs.regno','=', 'student_tbs.regno')
+                        ->select('student_tbs.degree_id','degree_tbs.id','degree_tbs.M_Title','degree_tbs.Det1','degree_tbs.DegCode','roll_no_tbs.rollno','roll_no_tbs.examcode',DB::raw('roll_no_tbs.ccode AS centerDegrees'))
+                        ->where('roll_no_tbs.examcode','=',$examcode)
+                        ->distinct('degree_tbs.Det1')
+                        ->groupBy('degree_tbs.DegCode')
+                        ->orderBy('degree_tbs.Det1','ASC')
+                        ->get();                  
 
       $data = array();  
 
@@ -312,7 +312,8 @@ class SecrecyUsersController extends Controller
           $nestedData['M_Title'] = $degree->M_Title;
           $nestedData['Det1']    = $degree->Det1;
           $nestedData['DegCode'] = $degree->DegCode;
-          
+          $nestedData['centerDegrees'] = $degree->centerDegrees;
+
           $data[] = $nestedData;
         }
 
@@ -337,11 +338,14 @@ class SecrecyUsersController extends Controller
   public function examsdegreesSubjects(Request $request){
     
     $degCode   =  $request->degCode;
+    $examcode   =  $request->examcode;
 
       $subjects = DB::table('subject_tbs')
       ->join('degree_tbs', 'degree_tbs.DegCode', '=', 'subject_tbs.degree_id')
-      ->select('subject_tbs.*','degree_tbs.DegCode','degree_tbs.DegCode','degree_tbs.degYears')
-      ->where('degree_tbs.DegCode','=',$degCode)
+      ->join('roll_no_com_dets','roll_no_com_dets.subcode','=','subject_tbs.code')
+      ->select('subject_tbs.*','degree_tbs.DegCode','degree_tbs.degYears','roll_no_com_dets.subcode')
+      ->where(['degree_tbs.DegCode'=>$degCode,'roll_no_com_dets.examcode'=>$examcode])
+      ->distinct('subject_tbs.Na')
       ->orderBy('subject_tbs.Na','ASC')
       ->get(); 
 
@@ -356,6 +360,25 @@ class SecrecyUsersController extends Controller
           $nestedData['Na'] = $subject->Na;
           $nestedData['degYears']    = $subject->degYears;
           $nestedData['DegCode'] = $subject->DegCode;
+
+          $subjects_count    = DB::select("SELECT COUNT(subcode) AS totalSubjects FROM roll_no_com_dets WHERE subcode = '$subject->code'");
+
+          $totalSubjects  =  $subjects_count[0]->totalSubjects;
+
+
+          $nestedData['totalSubjects'] = $totalSubjects;
+
+
+
+          $assignedCounts    =  DB::select("SELECT COUNT(subcode) AS assigedCounts FROM  teacher_exam_center_assignment_tbs WHERE subcode = '$subject->code' AND is_assigned = 1");
+
+          $assigedCounts    = $assignedCounts[0]->assigedCounts;
+
+          $nestedData['assigedCounts'] =  $assigedCounts;
+
+
+
+
           $data[] = $nestedData;
         }
 
@@ -383,17 +406,7 @@ class SecrecyUsersController extends Controller
     $degCode    = $request->degCode;
     $subject    = $request->subject;
 
-    /*$colleges = DB::table('roll_no_com_dets')
-      ->join('roll_no_tbs', 'roll_no_tbs.rollno', '=', 'roll_no_com_dets.rollno')
-      ->join('student_tbs','student_tbs.regno','=','roll_no_tbs.regno')
-      ->join('college_tbs','college_tbs.college_id','student_tbs.department_id')
-      ->select('college_tbs.name','college_tbs.college_id')
-      ->distinct('college_tbs.name')
-      ->where(['roll_no_com_dets.subcode'=>$subject,'roll_no_com_dets.examcode'=>$examcode])
-      ->orderBy('college_tbs.name','ASC')
-      ->get(); */
-
-
+  
       $colleges = DB::table('roll_no_com_dets')
       ->join('roll_no_tbs', 'roll_no_tbs.rollno', '=', 'roll_no_com_dets.rollno')
       ->join('student_tbs','student_tbs.regno','=','roll_no_tbs.regno')
@@ -486,6 +499,57 @@ class SecrecyUsersController extends Controller
         echo json_encode($json_data); 
       }
 
+  }
+
+  public function examsStudentsCounts(Request $request)
+  {
+  		
+  		$examcode 	= $request->examcode;   
+  		$DegCode 		= $request->DegCode;
+  		$subject    = $request->subject;
+  		$ccode      = $request->ccode; 
+				
+
+			$stdCounts  = DB::select("SELECT DISTINCT COUNT(roll_no_com_dets.rollno) AS stdTotalCount, roll_no_com_dets.rollno, roll_no_com_dets.examcode, roll_no_com_dets.subcode, roll_no_tbs.part, roll_no_tbs.ccode,roll_no_tbs.colcode,dbo_web_part.OneRTwo, roll_no_tbs.regno, exam_code_tbs.session, roll_no_com_dets.FicRollno, dbo_web_part.tp FROM roll_no_tbs INNER JOIN dbo_web_part ON roll_no_tbs.part = dbo_web_part.part INNER JOIN
+                         roll_no_com_dets ON roll_no_tbs.rollno = roll_no_com_dets.rollno AND roll_no_tbs.examcode = roll_no_com_dets.examcode INNER JOIN college_tbs ON roll_no_tbs.colcode = college_tbs.college_id INNER JOIN exam_code_tbs ON roll_no_tbs.examcode = exam_code_tbs.examcode INNER JOIN center_codes_tbs ON roll_no_tbs.ccode = center_codes_tbs.ccode AND roll_no_tbs.examcode = center_codes_tbs.examcode WHERE roll_no_com_dets.subcode = '$subject' AND roll_no_com_dets.examcode = '$examcode' AND roll_no_tbs.ccode = '$ccode'"); 											
+								
+  	$data = array();
+
+      if(count($stdCounts) > 0)
+      {
+        foreach ($stdCounts as $stdcount)
+        {
+
+          $nestedData['stdTotalCount']  = $stdcount->stdTotalCount;
+          $nestedData['rollno']         = $stdcount->rollno;
+          $nestedData['examcode']       = $stdcount->examcode;
+          $nestedData['subcode']        = $stdcount->subcode;
+          $nestedData['part']           = $stdcount->part;
+          $nestedData['ccode']          = $stdcount->ccode;
+          $nestedData['colcode']        = $stdcount->colcode;
+          $data[] = $nestedData;
+          
+          $json_data = array(
+          "Good" => true,
+          "Message" => 'Data Found Successfully',
+          "data" => $data
+        );
+        
+      }
+
+       echo json_encode($json_data);
+    
+    }
+    else
+      {
+        $json_data = array(
+          "Good" => false,
+          "Message" => 'No result found',
+        );
+        echo json_encode($json_data); 
+      }	
+  	
+  		
   }
 
 

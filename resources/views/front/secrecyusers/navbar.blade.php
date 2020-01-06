@@ -25,72 +25,54 @@
       </div>
       <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
         <ul class="header-nav nav">
-          <li class="nav-item dropdown header-nav-dropdown has-notified">
+          <li class="nav-item dropdown header-nav-dropdown">
             <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="oi oi-envelope-open"></span>
+              <span class="oi oi-grid-three-up"></span>
             </a>
             <div class="dropdown-arrow"></div>
             <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">
-              <h6 class="dropdown-header stop-propagation">
-              <span>Messages</span>
-              <a href="#">Mark all as read</a>
-              </h6>
-              <div class="dropdown-scroll has-scrollable">
-                <a href="#" class="dropdown-item unread">
-                  <div class="user-avatar">
-                  <img src="{{asset('backend/images/avatars/team1.jpg')}}" alt=""> </div>
-                  <div class="dropdown-item-body">
-                    <p class="subject"> Stilearning </p>
-                    <p class="text text-truncate"> Invitation: Joe's Dinner @ Fri Aug 22 </p>
-                    <span class="date">2 hours ago</span>
-                  </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                  <div class="user-avatar">
-                  <img src="{{asset('backend/images/avatars/team3.png')}}" alt=""> </div>
-                  <div class="dropdown-item-body">
-                    <p class="subject"> Openlane </p>
-                    <p class="text text-truncate"> Final reminder: Upgrade to Pro </p>
-                    <span class="date">23 hours ago</span>
-                  </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                  <div class="tile tile-circle bg-green"> GZ </div>
-                  <div class="dropdown-item-body">
-                    <p class="subject"> Gogo Zoom </p>
-                    <p class="text text-truncate"> Live healthy with this wireless sensor. </p>
-                    <span class="date">1 day ago</span>
-                  </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                  <div class="tile tile-circle bg-teal"> GD </div>
-                  <div class="dropdown-item-body">
-                    <p class="subject"> Gold Dex </p>
-                    <p class="text text-truncate"> Invitation: Design Review @ Mon Jul 7 </p>
-                    <span class="date">1 day ago</span>
-                  </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                  <div class="user-avatar">
-                  <img src="{{asset('backend/images/avatars/team2.png')}}" alt=""> </div>
-                  <div class="dropdown-item-body">
-                    <p class="subject"> Creative Division </p>
-                    <p class="text text-truncate"> Need some feedback on this please </p>
-                    <span class="date">2 days ago</span>
-                  </div>
-                </a>
-                <a href="#" class="dropdown-item">
-                  <div class="tile tile-circle bg-pink"> LD </div>
-                  <div class="dropdown-item-body">
-                    <p class="subject"> Lab Drill </p>
-                    <p class="text text-truncate"> Our UX exercise is ready </p>
-                    <span class="date">6 days ago</span>
-                  </div>
-                </a>
+              <div class="dropdown-sheets">
+                <div class="dropdown-sheet-item">
+                  <a href="#" class="tile-wrapper">
+                    <span class="tile tile-lg bg-indigo">
+                      <i class="oi oi-people"></i>
+                    </span>
+                    <span class="tile-peek">Teams</span>
+                  </a>
+                </div>
+                <div class="dropdown-sheet-item">
+                  <a href="#" class="tile-wrapper">
+                    <span class="tile tile-lg bg-teal">
+                      <i class="oi oi-fork"></i>
+                    </span>
+                    <span class="tile-peek">Projects</span>
+                  </a>
+                </div>
+                <div class="dropdown-sheet-item">
+                  <a href="#" class="tile-wrapper">
+                    <span class="tile tile-lg bg-pink">
+                      <i class="fa fa-tasks"></i>
+                    </span>
+                    <span class="tile-peek">Tasks</span>
+                  </a>
+                </div>
+                <div class="dropdown-sheet-item">
+                  <a href="#" class="tile-wrapper">
+                    <span class="tile tile-lg bg-yellow">
+                      <i class="oi oi-fire"></i>
+                    </span>
+                    <span class="tile-peek">Feeds</span>
+                  </a>
+                </div>
+                <div class="dropdown-sheet-item">
+                  <a href="#" class="tile-wrapper">
+                    <span class="tile tile-lg bg-cyan">
+                      <i class="oi oi-document"></i>
+                    </span>
+                    <span class="tile-peek">Files</span>
+                  </a>
+                </div>
               </div>
-              <a href="app-messages.html" class="dropdown-footer">All messages
-                <i class="fa fa-fw fa-long-arrow-alt-right"></i>
-              </a>
             </div>
           </li>
         </ul>

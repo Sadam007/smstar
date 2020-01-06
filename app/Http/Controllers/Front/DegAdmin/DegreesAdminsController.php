@@ -535,4 +535,19 @@ class DegreesAdminsController extends Controller
         return $colleges;             
                
     }
+
+
+    public function degadminProfile(){
+
+        $degAdmin_id = Auth('degAdmin')->user()->degree_admin_id;
+
+        $degadmin    = DegreeAdminTb::find($degAdmin_id);
+
+        return view('front.degadmins.profile')->with('degadmin',$degadmin);
+
+    }
+
+    public function degadminProfileUpdate(Request $request){
+
+    }
 }

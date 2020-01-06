@@ -54,9 +54,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\SpecialUserTb');
     }
 
-    public function staffs() {
+    /*public function staffs() {
         return $this->hasMany('App\StaffTb');
-    }
+    }*/
 
     public function districts() {
         return $this->hasMany('App\Models\DistrictTb');

@@ -372,6 +372,11 @@ Route::group([ 'prefix'=>'secrecy','middleware'=>['auth:secrecyuser', 'disablepr
 			'as'		=> 'exam.search-teacher-assignment'
 		]);
 
+		Route::post('/exams/students/counts',[
+			'uses'	=> 'Admin\SecrecyUsersController@examsStudentsCounts',
+			'as'		=> 'exam.student-count'
+		]);
+
 
 		Route::get('/profile',[
 			'uses'	=> 'Admin\SecrecyUsersController@secrecyProfile',
@@ -484,6 +489,16 @@ Route::group([ 'prefix'=>'special','middleware'=>'auth:specialuser','XSS'], func
 		'as'   => 'degadminactive'
 		]);
 
+		Route::get('/profile',[
+		'uses'=>  'Admin\SpecialUsersController@specialuserProfile',
+		'as'	=>	 'specialuser.profile'
+		]);
+
+		Route::post('/profile',[
+		'uses'=>  'Admin\SpecialUsersController@specialuserProfileUpdate',
+		'as'	=>	 'specialuser.profile-update'
+		]);
+
 		Route::post('/logout',[
 				'uses' => 'Admin\SpecialUsersController@logout',
 				'as'   => 'specialuser.logout'
@@ -543,6 +558,16 @@ Route::group([ 'prefix'=>'degAdmin','middleware'=>'auth:degAdmin','XSS'], functi
 		Route::post('/subject/assignment',[
 			'uses'  => 'Front\DegAdmin\DegreesAdminsController@teacherSubjectAssigment',
 			'as'    =>  'subject.assignment'
+		]);
+
+		Route::get('/profile',[
+		'uses'=>  'Front\DegAdmin\DegreesAdminsController@degadminProfile',
+		'as'	=>	 'degadmin.profile'
+		]);
+
+		Route::post('/profile',[
+		'uses'=>  'Front\DegAdmin\DegreesAdminsController@degadminProfileUpdate',
+		'as'	=>	 'degadmin.profile-update'
 		]);
 
 		Route::post('/logout',[
