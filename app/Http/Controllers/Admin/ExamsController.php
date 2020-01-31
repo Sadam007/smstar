@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 
 use App\Models\ExamCodeTb;
-use App\Models\CentreCodeTb;
+use App\CenterCodesTb;
 use Auth;
 use DB;
 use Session;
@@ -116,11 +116,48 @@ class ExamsController extends Controller
 
     }
 
+     public function examUpdate(Request $request, $id){
+        $editExamcode   = $request->editExamcode;
+        $editExamname   = $request->editExamname;
+        $editExamtype   = $request->editExamtype;
+
+        $findexamcode   = ExamCodeTb::findOrFail($id);
+
+        $findexamcode->examcode  = $editExamcode;
+        $findexamcode->description  = $editExamname;
+        $findexamcode->type  = $editExamtype;
+        $saved   = $findexamcode->save();
+
+        if ($saved) {
+            Session::flash('success','Exam code updated successfully');
+            return redirect()->route('examcsv');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
+    }
+
+    public function examDelete($id){
+     $deleteExamCode  = ExamCodeTb::findOrFail($id);
+
+        $deleted  = $deleteExamCode->delete();
+
+        if ($deleted) {
+            Session::flash('success','Exam Code deleted successfully');
+            return redirect()->route('examcsv');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
+    }
+
     public function centrecsv(){
-         $centers = DB::table('centre_code_tbs')
-                        ->join('users', 'users.id', '=', 'centre_code_tbs.user_id')
-                        ->select('centre_code_tbs.*','users.id as userId','users.name as addedby')
-                        ->orderBy('created_at','DESC')
+         $centers = DB::table('center_codes_tbs')
+                        ->join('users', 'users.id', '=', 'center_codes_tbs.user_id')
+                        ->select('center_codes_tbs.*','users.id as userId','users.name as addedby')
+                        ->orderBy('center_codes_tbs.ccode','DESC')
                         ->paginate(20)->onEachSide(5);
 
         return view('backend.exams.centrecsv')->with(['centers' => $centers]);
@@ -159,17 +196,17 @@ class ExamsController extends Controller
                     $user_id        = Auth::id();
                     $ccode          = $importData[0];
                     $examcode       = $importData[1];
-                    $name_of_centre = $importData[2];
-                   
+                    $cname = $importData[2];            
                     
-                    $create = CentreCodeTb::create([
+                    $create = CenterCodesTb::create([
                                 "user_id"         => $user_id,
                                 "ccode"           => $ccode,
                                 "examcode"        => $examcode,
-                                "name_of_centre"  => $name_of_centre,
+                                "cname"  => $cname,
                                 
                     ]);
                 }
+
                 if ($create) { 
                     unlink(public_path($location."/".$filename));
                     $arr = array(['Good' => true,'message' => 'Data has been successfully imported.'], 200);
@@ -183,5 +220,44 @@ class ExamsController extends Controller
           }else{
             return response()->json(['Good' => true,'message' => 'Invalid File Extension'], 200);
           }
+    }
+
+    public function centerUpdate(Request $request, $id){
+        //dd($request->all());
+        $centerCode   = $request->centerCode;
+        $centerName   = $request->centerName;
+        $centerEcode   = $request->centerEcode;
+
+        $findsub   = CenterCodesTb::findOrFail($id);
+
+        $findsub->ccode  = $centerCode;
+        $findsub->cname  = $centerName;
+        $findsub->examcode  = $centerEcode;
+        $saved   = $findsub->save();
+
+        if ($saved) {
+            Session::flash('success','Center code updated successfully');
+            return redirect()->route('centrecsv');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
+
+    }
+
+    public function centerDestroy($id){
+        $deleteCenter  = CenterCodesTb::findOrFail($id);
+
+        $deleted  = $deleteCenter->delete();
+
+        if ($deleted) {
+            Session::flash('success','Center deleted successfully');
+            return redirect()->route('centrecsv');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
     }
 }

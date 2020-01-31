@@ -102,7 +102,7 @@
    
      
     <div class="form-group btn-toggle">
-      <button type="submit" id="BtnSubmit" class="btn btn-primary">Submit</button>
+      <button type="submit" id="BtnSubmit" class="btn btn-success">Submit</button>
     </div>   
 </fieldset>
 <div id="loader"></div>

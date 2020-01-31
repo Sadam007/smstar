@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCenterCodeTbsTable extends Migration
+class AddArchieveToNewsTbs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCenterCodeTbsTable extends Migration
      */
     public function up()
     {
-        Schema::create('center_codes_tbs', function (Blueprint $table) {
-            $table->increments('ccode_id');
-            $table->integer('ccode');
-            $table->integer('examcode');
-            $table->string('cname');
-            $table->timestamps();
+        Schema::table('news_tbs', function (Blueprint $table) {
+            $table->integer('is_archieve')->after('is_active')->default(0);
         });
     }
 
@@ -29,6 +25,8 @@ class CreateCenterCodeTbsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('center_code_tbs');
+        Schema::table('news_tbs', function (Blueprint $table) {
+            $table->dropColumn('is_archieve');
+        });
     }
 }

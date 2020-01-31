@@ -295,12 +295,14 @@ class SecrecyUsersController extends Controller
       $degrees    =  DB::table('student_tbs')
                         ->join('degree_tbs','degree_tbs.DegCode','=','student_tbs.degree_id')
                         ->join('roll_no_tbs','roll_no_tbs.regno','=', 'student_tbs.regno')
-                        ->select('student_tbs.degree_id','degree_tbs.id','degree_tbs.M_Title','degree_tbs.Det1','degree_tbs.DegCode','roll_no_tbs.rollno','roll_no_tbs.examcode',DB::raw('roll_no_tbs.ccode AS centerDegrees'))
+                        ->select('student_tbs.degree_id','degree_tbs.id','degree_tbs.M_Title','degree_tbs.Det1','degree_tbs.DegCode','roll_no_tbs.rollno','roll_no_tbs.examcode',DB::raw("COUNT(roll_no_tbs.ccode) AS centerDegrees"))
                         ->where('roll_no_tbs.examcode','=',$examcode)
                         ->distinct('degree_tbs.Det1')
                         ->groupBy('degree_tbs.DegCode')
                         ->orderBy('degree_tbs.Det1','ASC')
                         ->get();                  
+
+
 
       $data = array();  
 

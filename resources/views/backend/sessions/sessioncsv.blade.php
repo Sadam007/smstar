@@ -36,6 +36,18 @@
 .card-header legend{
  margin-bottom: 0px !important;
 }
+.custom-title{
+  font-size: 16px;
+  text-align: left;
+  color: #063;
+  font-weight: bold;
+}
+.custom-title:hover{
+  cursor: pointer;
+}
+.cus-label{
+  font-weight: bold;
+}
 /*.modal-dialog {
    -webkit-transform: translate(0,-50%);
    -o-transform: translate(0,-50%);
@@ -80,7 +92,7 @@
    </div>
 </div>
 <div class="form-group btn-toggle">
-  <button type="submit" id="BtnSubmit" class="btn btn-primary">Submit</button>
+  <button type="submit" id="BtnSubmit" class="btn btn-success">Submit</button>
 </div>   
 </fieldset>
 <div id="loader"></div>
@@ -171,8 +183,22 @@
 </td>
 <td class="align-middle"> {{ $sess->sessionCode}} </td>
 <td class="align-middle"> {{ $sess->session}} </td>
-<td class="align-middle"> {{ $sess->status}} </td>
-<td class="align-middle text-right">
+<td class="align-middle"> 
+    @php
+        $status = $sess->status;
+    @endphp
+    
+   <div class="form-group">
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <label class="switcher-control">
+          <input type="checkbox" name="is_active" class="switcher-input is_active_switcher" {{ $status == 1 ? 'checked' : '' }} data-id="{{ $sess->id }}" value="{{ $status }}">
+          <span class="switcher-indicator"></span>
+        </label>
+      </div>
+    </div> 
+
+</td>
+<td class="align-middle">
     <button type="button" href="#edit<?php echo $sess->id;?>" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#edit<?php echo $sess->id;?>">
      <i class="fa fa-pencil-alt"></i>
      <span class="sr-only">Edit</span>
@@ -183,62 +209,11 @@
  </button>
 </td>
 </tr>
-<div class="modal fade" id="delete<?php echo $sess->id;?>">
-   <div class="modal-dialog">
-    <div class="modal-content">
-     <div class="modal-body">
-      <h4 class="modal-title">
-       <center>Are you sure to delete this item</center>
-   </h4>
-</div>
-<div class="modal-footer">
-  <div style="margin-top: 20px !important;">
-   <a  href="{{route('sessiondel',['id'=>$sess->id])}}" data-id="<?php echo $sess->id;?>" class="btn btn-sm btn-outline-primary  btn-del">Yes <i class="far fa fa-check" aria-hidden="true"></i>
-   </a>
-   <a type="button" class="btn btn-sm btn-outline-warning" data-dismiss="modal">Cancel <i class="fa fa-times" aria-hidden="true"></i>
-   </a>
-</div>
-</div>               
-</div>
-</div>
-</div>
-
-<div class="modal" id="edit<?php echo $sess->id;?>">
- <div class="modal-dialog">
-    <div class="modal-content">
-       <div class="modal-header">
-          <h4 class="modal-title">Update Session : {{$sess->session}}</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-          <form action="{{ route('sessionupdate',['id'=>$sess->id])}}" method="POST">
-            {{ csrf_field() }}
-            
-            <div class="form-group">
-              <label for="tf1">Session Code</label>
-              <input type="number" name="sessionCode" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{$sess->sessionCode}}">
-          </div>
-          <div class="form-group">
-              <label for="tf1">Session</label>
-              <input type="text" name="session" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{$sess->session}}">
-          </div>
-          <div class="form-group">
-              <label for="tf1">Status</label>
-              <input type="number" name="status" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{$sess->status}}">
-          </div>
-          <div class="form-group">
-              <input type="submit" class="btn btn-primary" id="tf1" aria-describedby="tf1Help" value="Update">
-          </div>
-      </form>
-  </div>
-</div>
-</div>
-</div>
+  @include('backend.includes.modals.edit-session-modal')  
+  @include('backend.includes.modals.delete-session-modal')
 @endforeach
 @else
-<td>No Data Found</td>
+<td>No Data Found</td> 
 @endif
 </tbody>       
 </table>
@@ -349,17 +324,37 @@ e.preventDefault();
 });
 });
 
-   // $('button.btn-del').on('click', function (e) {
-   //     e.preventDefault();
-   //     var id = $(this).data("id");
-   //     var url1 = "/sessiondel1/delete/{id}";
-   //     axios.get(url1,id).then(response => {
-   //       console.log(response)
-   //     })  
-   //     .catch(function (err) {
-   //        console.log(err)
-   //       });
-   // });
+$(".is_active_switcher").on('change', function(event) {
+     event.preventDefault();
+    
+    var switchId = $(this).data("id");
+    var switchVal = $(this).val();
+
+
+    var cur_url="<?php echo route('sessioncsv');?>";
+    var url="<?php echo route('session.status');?>";
+
+    axios({
+      method: 'POST',
+      url: url,
+      data: {
+          switchId: switchId,
+          switchVal: switchVal,
+      }
+    })
+    .then(function(res){
+      var good  = res.data[0].Good;
+      var msg   = res.data[0].message;
+      setTimeout(()=>{toastr.success(msg);
+      },1000);
+      $('body').load(document.URL+'#tblNews');
+
+    })
+
+
+   });
+
+
 
 </script>
 @endsection

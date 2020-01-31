@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCentreCodeTbsTable extends Migration
+class CreateNewsTbsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateCentreCodeTbsTable extends Migration
      */
     public function up()
     {
-        Schema::create('centre_code_tbs', function (Blueprint $table) {
-            $table->increments('center_id');
+        Schema::create('news_tbs', function (Blueprint $table) {
+            $table->increments('news_id');
+            $table->string('title',255);
+            $table->longText('body');
+            $table->text('attachment')->nullable();
+            $table->timestamp('published_on')->useCurrent = true;
+            $table->integer('is_active')->default(0);
             $table->integer('user_id');
-            $table->integer('ccode');
-            $table->integer('examcode');
-            $table->string('name_of_centre');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateCentreCodeTbsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('centre_code_tbs');
+        Schema::dropIfExists('news_tbs');
     }
 }

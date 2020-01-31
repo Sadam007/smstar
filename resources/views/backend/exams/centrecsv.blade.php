@@ -36,6 +36,19 @@
 .card-header legend{
  margin-bottom: 0px !important;
 }
+
+.custom-title{
+  font-size: 16px;
+  text-align: left;
+  color: #063;
+  font-weight: bold;
+}
+.custom-title:hover{
+  cursor: pointer;
+}
+.cus-label{
+  font-weight: bold;
+}
 /*.modal-dialog {
    -webkit-transform: translate(0,-50%);
    -o-transform: translate(0,-50%);
@@ -80,7 +93,7 @@
    </div>
 </div>
 <div class="form-group btn-toggle">
-  <button type="submit" id="BtnSubmit" class="btn btn-primary">Submit</button>
+  <button type="submit" id="BtnSubmit" class="btn btn-success">Submit</button>
 </div>   
 </fieldset>
 <div id="loader"></div>
@@ -168,71 +181,22 @@
     <a href="#" style="margin-left: 10px;">{{ $center->addedby}}</a>
 </td>
 <td class="align-middle"> {{ $center->ccode}} </td>
-<td class="align-middle"> {{ $center->name_of_centre}} </td>
+<td class="align-middle"> {{ $center->cname}} </td>
 <td class="align-middle text-right">
-    <button type="button" href="#edit<?php echo $center->center_id;?>" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#edit<?php echo $center->center_id;?>">
+    <button type="button" href="#edit<?php echo $center->ccode_id;?>" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#edit<?php echo $center->ccode_id;?>">
      <i class="fa fa-pencil-alt"></i>
      <span class="sr-only">Edit</span>
  </button>
- <button type="button" href="#delete<?php echo $center->center_id;?>" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#delete<?php echo $center->center_id;?>">
+ <button type="button" href="#delete<?php echo $center->ccode_id;?>" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#delete<?php echo $center->ccode_id;?>">
      <i class="far fa-trash-alt"></i>
      <span class="sr-only">Remove</span>
  </button>
 </td>
 </tr>
-<div class="modal fade" id="delete<?php echo $center->center_id;?>">
-   <div class="modal-dialog">
-    <div class="modal-content">
-     <div class="modal-body">
-      <h4 class="modal-title">
-       <center>Are you sure to delete this item</center>
-   </h4>
-</div>
-<div class="modal-footer">
-  <div style="margin-top: 20px !important;">
-   <a  href="{{route('sessiondel',['id'=>$center->center_id])}}" data-id="<?php echo $center->center_id;?>" class="btn btn-sm btn-outline-primary  btn-del">Yes <i class="far fa fa-check" aria-hidden="true"></i>
-   </a>
-   <a type="button" class="btn btn-sm btn-outline-warning" data-dismiss="modal">Cancel <i class="fa fa-times" aria-hidden="true"></i>
-   </a>
-</div>
-</div>               
-</div>
-</div>
-</div>
 
-<div class="modal" id="edit<?php echo $center->center_id;?>">
- <div class="modal-dialog">
-    <div class="modal-content">
-       <div class="modal-header">
-          <h4 class="modal-title">Update Session : {{$center->name_of_centre}}</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
+@include('backend.includes.modals.edit-center-modal')
+@include('backend.includes.modals.delete-center-modal')
 
-      <!-- Modal body -->
-      <div class="modal-body">
-          <form action="{{ route('sessionupdate',['id'=>$center->center_id])}}" method="POST">
-            {{ csrf_field() }}
-            
-            <div class="form-group">
-              <label for="tf1">Session Code</label>
-              <input type="number" name="sessionCode" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{$center->examcode}}">
-          </div>
-          <div class="form-group">
-              <label for="tf1">Session</label>
-              <input type="text" name="session" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{$center->examcode}}">
-          </div>
-          <div class="form-group">
-              <label for="tf1">Status</label>
-              <input type="number" name="status" class="form-control" id="tf1" aria-describedby="tf1Help" value="{{$center->examcode}}">
-          </div>
-          <div class="form-group">
-              <input type="submit" class="btn btn-primary" id="tf1" aria-describedby="tf1Help" value="Update">
-          </div>
-      </form>
-  </div>
-</div>
-</div>
-</div>
 @endforeach
 @else
 <td>No Data Found</td>

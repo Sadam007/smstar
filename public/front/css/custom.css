@@ -27,17 +27,24 @@ body{
     width: 100%;
     vertical-align: middle;
 } 
-.card{
-    min-height: 400px;
-}
+
 .carousel-item img{
     width: 100%;
-    height: 320px;
+    height: 400px;
     object-fit: cover;
 }
 .mg-top{
     margin-top: 50px;
 }
+#sidebar .card{
+    height: 470px !important;
+}
+.blink_me{
+  color: red;
+  animation: blinker 1s linear infinite;
+  }
+@keyframes blinker {50%{opacity: 0;}}
+
 #footer{
     background: #143a66 !important;
 

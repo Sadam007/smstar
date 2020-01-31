@@ -3,14 +3,29 @@
 
 Route::group(['middleware' => ['XSS']], function () {
 		Route::get('/', [
-		'uses' =>'Front\HomeController@index',
-		'as'   => 'homepage'
+			'uses'	=>'Front\HomeController@index',
+			'as'		=> 'homepage'
+		]);
+		Route::get('/controller/details',[
+			'uses'	=> 'Front\HomeController@controllerDetails',
+			'as'		=>	'controller.details'
+		]);
+		Route::get('/slider/show/{id}',[
+			'uses'	=> 'Front\HomeController@frontShowSlides',
+			'as'		=>	'slide.show'
+		]);
+		Route::get('/show/news/{id}',[
+			'uses'	=>'Admin\NewsController@frontShowNews',
+			'as'    => 'news.show'	
+		]);
+		Route::get('/show/allNews/',[
+			'uses'	=>'Admin\NewsController@frontAllNews',
+			'as'		=>'all.news'
 		]);
 		Route::get('/users',[
-		'uses' =>'Front\HomeController@users',
-		'as'   => 'users',
+			'uses' =>'Front\HomeController@users',
+			'as'   => 'users',
 		]);
-
 });
 
 /*
@@ -83,6 +98,11 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 
 		]);
 
+		Route::post('/session/status',[
+			'uses' => 'Admin\SessionsController@updateSessionStatus',
+			'as' 	 => 'session.status'
+		]);
+
 		Route::get('/collegecsv',[
 		'uses' => 'Admin\CollegesController@collegecsv',
 		'as'   => 'collegecsv'
@@ -96,6 +116,16 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		Route::post('/collegecsvpost',[
 		'uses' => 'Admin\CollegesController@collegecsvpost',
 		'as'   => 'collegecsvpost'
+		]);
+
+		Route::post('/collegeupdate/{id}',[
+		'uses'	=> 'Admin\CollegesController@update',
+		'as'		=>  'college.update'
+		]);
+
+		Route::get('/session/delete/{id}',[
+		'uses'	=> 'Admin\CollegesController@destroy',
+		'as'		=> 'college.delete'
 		]);
 
 		Route::get('/college/degreescsv',[
@@ -131,6 +161,16 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		Route::post('/specialuserspost',[
 		'uses' => 'Admin\SpecialUsersController@store',
 		'as'   => 'specialuserspost.store'
+		]);
+
+		Route::post('/specialuser/update/{id}',[
+		'uses' => 'Admin\SpecialUsersController@specialUserUpdate',
+		'as'	 => 'specialuser.update'
+		]);
+
+		Route::get('/specialuser/delete/{id}',[
+		'uses' =>  'Admin\SpecialUsersController@specialUserDelete',
+		'as'	 => 'specialuser.delete'
 		]);
 
 		Route::get('/degreecsv',[
@@ -194,6 +234,15 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		'uses' => 'Admin\SubjectsController@subjectscsvpost',
 		'as'   => 'subjectscsvpost'
 		]);
+		Route::post('/update/subject/{id}',[
+		'uses' => 'Admin\SubjectsController@update',
+		'as'   => 'subjectupdate'
+		]);
+
+		Route::get('/subject/delete/{id}',[
+			'uses' => 'Admin\SubjectsController@destroy',
+			'as'   => 'subject.delete'
+		]);
 
 		Route::get('/examcsv',[
 		'uses' => 'Admin\ExamsController@examcsv',
@@ -205,6 +254,16 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		'as'   => 'examcsvpost'
 		]);
 
+		Route::post('/examupdate/{id}',[
+			'uses' => 'Admin\ExamsController@examUpdate',
+			'as'   => 'examupdate'
+		]);
+
+		Route::get('/exam/delete/{id}',[
+			'uses' => 'Admin\ExamsController@examDelete',
+			'as'   => 'examdelete'
+		]);
+
 		Route::get('/centrecsv',[
 		'uses' => 'Admin\ExamsController@centrecsv',
 		'as'   => 'centrecsv'
@@ -213,6 +272,16 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		Route::post('/centrecsvpost',[
 		'uses' => 'Admin\ExamsController@centrecsvpost',
 		'as'   => 'centrecsvpost'
+		]);
+
+		Route::post('/center/update/{id}',[
+		'uses' =>	'Admin\ExamsController@centerUpdate',
+		'as'	 =>	'centerupdate'	
+		]);
+
+		Route::get('/delete/center/{id}',[
+		'uses' => 'Admin\ExamsController@centerDestroy',
+		'as'	 =>  'centerdelete'
 		]);
 
 		Route::get('/secrecyuser',[
@@ -289,6 +358,96 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','XSS'],function(){
 		Route::post('/profile',[
 			'uses' => 'Admin\GeneralSettingsController@adminProfileUpdate',
 			'as'   => 'admin.profile-update'
+		]);
+		Route::get('add/slider',[
+			'uses' => 'Front\HomeController@addSliderImages',
+			'as'	 => 'add.slider-images'
+		]);
+		Route::post('add/slider',[
+			'uses' => 'Front\HomeController@addSliderImagesProcess',
+			'as'	 => 'add.slider-images'
+		]);
+
+		Route::post('/editSlider',[
+			'uses' => 'Front\HomeController@editSliderProcess',
+			'as'	 => 'editSliderProcess'
+		]);
+		Route::get('/slider/delete/{id}',[
+			'uses' => 'Front\HomeController@destroy',
+			'as'   => 'slider.delete'
+		]);
+
+		Route::get('show/slider/{id}',[
+			'uses' => 'Front\HomeController@sliderShow',
+			'as'	 => 'show.slider-images'
+		]);
+
+		Route::post('status/slider',[
+			'uses' => 'Front\HomeController@slideChangeStatus',
+			'as'	 => 'slide.change-status'
+		]);
+		Route::post('/slider/search',[
+			'uses' => 'Front\HomeController@sliderSearch',
+			'as'	 => 'slider.search'	
+		]);
+		Route::get('add/news',[
+			'uses' => 'Admin\NewsController@create',
+			'as'	 => 'add.news'
+		]);
+		Route::post('/newsProcess',[
+			'uses' => 'Admin\NewsController@newsProcess',
+			'as'	 => 'newsProcess'
+		]);
+
+		Route::post('/editNews',[
+			'uses' => 'Admin\NewsController@editNewsProcess',
+			'as'	 => 'editNewsProcess'
+		]);
+
+		Route::get('show/news/{id}',[
+			'uses' =>'Admin\NewsController@showNews',
+			'as'   => 'show.news' 
+
+		]);
+
+		Route::post('status/news',[
+			'uses' => 'Admin\NewsController@newsChangeStatus',
+			'as'	 => 'news.change-status'
+		]);
+		Route::post('archieve/news',[
+			'uses' => 'Admin\NewsController@newsChangeStatusArchieves',
+			'as'	 => 'news.change-status-archieves'
+		]);
+
+		Route::get('/news/delete/{id}',[
+			'uses' => 'Admin\NewsController@destroy',
+			'as'   => 'news.delete'
+		]);
+
+		Route::get('/add/portalstaff',[
+			'uses' =>	'Admin\PortalStaffController@create',
+			'as'	 =>	 'add.portal-staff'
+		]);
+		Route::post('/add/portalstaff',[
+			'uses' =>	'Admin\PortalStaffController@store',
+			'as'	 =>	 'proces.portal-staff'
+		]);
+		Route::post('/editPortalStaffProcess',[
+			'uses'	=> 'Admin\PortalStaffController@editPortalStaffProcess',
+			'as'		=> 'editPortalStaffProcess'
+		]);
+		Route::get('/portalstaff/delete/{id}',[
+			'uses' => 'Admin\PortalStaffController@destroy',
+			'as'   => 'portalstaff.delete'
+		]);
+		Route::get('/show/portalstaff/{id}',[
+			'uses' =>	'Admin\PortalStaffController@show',
+			'as'	 =>	 'show.portal-staff'
+		]);
+
+		Route::post('portalstaff/status',[
+			'uses' => 'Admin\PortalStaffController@portalStaffChangeStatus',
+			'as'	 => 'portalstaff.status'
 		]);
 
 

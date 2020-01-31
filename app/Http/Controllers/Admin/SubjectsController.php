@@ -156,7 +156,25 @@ class SubjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $edit_subcode   = $request->edit_subcode;
+        $edit_subname   = $request->edit_subname;
+        $edit_submarks  = $request->edit_submarks;
+
+        $findsub   = SubjectTb::findOrFail($id);
+
+        $findsub->code  = $edit_subcode;
+        $findsub->Na  = $edit_subname;
+        $findsub->Marks  = $edit_submarks;
+        $saved   = $findsub->save();
+
+        if ($saved) {
+            Session::flash('success','Subject updated successfully');
+            return redirect()->route('subjectcsv');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -167,6 +185,17 @@ class SubjectsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteSubject  = SubjectTb::findOrFail($id);
+
+        $deleted  = $deleteSubject->delete();
+
+        if ($deleted) {
+            Session::flash('success','Subject deleted successfully');
+            return redirect()->route('subjectcsv');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
     }
 }

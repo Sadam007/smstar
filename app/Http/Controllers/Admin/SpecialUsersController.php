@@ -279,4 +279,37 @@ class SpecialUsersController extends Controller
         }
 
     }
+
+    public function specialUserUpdate(Request $request ,$id){
+        $edit_specialuser   = $request->edit_specialuser;
+
+        $specialuser   = SpecialUserTb::findOrFail($id);
+
+        $specialuser->username  = $edit_specialuser;
+        $saved   = $specialuser->save();
+
+        if ($saved) {
+            Session::flash('success','Special user updated successfully');
+            return redirect()->route('specialusers.create');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
+    }
+
+    public function specialUserDelete($id){
+        $deleteSpecialUser  = SpecialUserTb::findOrFail($id);
+
+        $deleted  = $deleteSpecialUser->delete();
+
+        if ($deleted) {
+            Session::flash('success','Special user deleted successfully');
+            return redirect()->route('specialusers.create');
+        }
+        else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+        }
+    }
 }

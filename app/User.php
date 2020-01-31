@@ -79,10 +79,22 @@ class User extends Authenticatable
     }
 
     public function centrecodes(){
-        return $this->hasMany('App\Models\CentreCodeTb');
+        return $this->hasMany('App\Models\CenterCodesTb');
     }
 
     public function secusers(){
         return $this->hasMany('App\Models\SecrecyTb');
+    }
+
+    public function slideImages(){
+        return $this->hasMany('App\Models\SliderTb');
+    }
+
+    public function news(){
+        return $this->hasMany('App\Models\NewsTb');
+    }
+
+    public function portalStaffs(){
+        return $this->hasMany('App\Models\PortalStaffModelTb');
     }
 }

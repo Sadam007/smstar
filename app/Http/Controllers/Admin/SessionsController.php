@@ -244,8 +244,29 @@ class SessionsController extends Controller{
 
      }
 
-    public function sessiondel1($value='')
-     {
-         # code...
-     }
+    public function updateSessionStatus(Request $request){
+        $switchId   = $request->switchId;
+        $switchVal  = $request->switchVal;
+  
+        if($switchVal == 1){
+          $switchVal  = 0;
+        }
+        else{
+          $switchVal= 1;
+        }
+
+      $status = SessionTb::where('id', $switchId)->findOrFail($switchId);
+      $status->status = $switchVal;
+      $result = $status->save();
+
+      if($result)
+      {
+        $arr = array(['Good' => true,'message' => 'Session status updated successfully.'], 200);
+        echo json_encode($arr);
+      }
+      else
+      {
+        return redirect()->back();
+      }
+    }
 }

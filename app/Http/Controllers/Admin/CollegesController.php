@@ -221,7 +221,20 @@ class CollegesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $editCollegeName  = $request->editCollegeName;
+
+        $update  = CollegeTb::findOrFail($id);
+        $update->name = $editCollegeName;
+        $saved  = $update->save();
+
+        if ($saved) {
+          Session::flash("success","Record updated successfully.");
+          return redirect()->back();
+        }else{
+          Session::flash("error","something went wrong.");
+          return redirect()->back();
+        }
+
     }
 
     /**
@@ -232,7 +245,18 @@ class CollegesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete   =  CollegeTb::findOrFail($id);
+
+        $deleted = $delete->delete();
+
+          if ($deleted) {
+            Session::flash('success','College deleted successfully');
+            return redirect()->back();
+          }
+          else{
+            Session::flash('error','Something went wrong');
+            return redirect()->back();
+          }
     }
 
 
